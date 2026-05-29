@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema - Iniciar Sesión</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32
+                ,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+        
+        <div class="right">
+            <form action="http://localhost:3000/login" method="POST">
+                <div class="nombre-logo">
+
+                    <h1 class="titulo-login">Bienvenido a "Pinturas  Universal  J&B"</h1>
+                    <img src="../Imagenes/LOGO JB 2026 .png" alt="logo de la empresa">
+        
+                </div>
+        
+                
+                
+                
+                <div class="input-container">
+                    <div class="input-box">
+                            <label for="username">Usuario</label>
+                            <input type="text" id="username" name="username" placeholder="Ingrese su correo" required>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required>
+                    </div>
+                </div>
+
+                <div class="button-container-iniciosesion">
+                    <button type="submit">Iniciar sesión</button>
+                </div>
+                
+            </form>
+            <p id="Mensaje" class="mensaje"></p>
+        </div>
+    </main>
+    <div id="modal" class="modal-overlay">
+    <div class="modal-caja">
+        <h2 id="mensajeModal"></h2>
+        <button onclick="window.location.href='dashboard.html'">OK</button>
+    </div>
+</div>
+</body>
+<script src="../scripts/login.js"></script>
+</html>

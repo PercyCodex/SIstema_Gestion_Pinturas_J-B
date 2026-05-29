@@ -1,0 +1,351 @@
+*{
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400; /* Grosor del texto */
+    background: #ffffffc2;
+    
+}
+
+main{
+    display:flex;
+    min-height: 100vh;
+    
+}
+
+#sidebar{
+    width: 260px;   /* Ancho del sidebar */
+    background: linear-gradient(135deg, #010e1b, #031b4b);
+
+    padding: 10px; /* Espaciado interno */
+    border-right: 1px solid #000105; /* Línea divisoria */
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar-header{
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espaciado entre elementos */
+    background: #000d29;
+    padding: 14px; /* Espaciado interno */
+    border-bottom: 4px solid #8d8d8d; /* Línea divisoria */
+    margin-bottom: 10px; /* Espaciado inferior */
+    width: 100%;
+}
+
+
+#bienvenida{
+    font-size: 17px;
+    font-weight: 600;
+    color: #f8f5f5;
+    margin: 0;
+    padding: 0;
+
+    line-height: 1.2;
+    white-space: normal;
+    word-break: break-word;
+    flex: 1;
+}
+
+#usuario{
+    
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+#usuario svg{
+    width: 50px;
+    height: 50px;
+}
+
+#navegador ul{
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Elimina el padding predeterminado */
+    margin: 0; /* Elimina el margen predeterminado */
+}
+
+#navegador li{
+    margin-bottom: 3px; /* Espaciado entre elementos */
+}
+
+#navegador a{
+    display: block; /* Hace que el enlace ocupe todo el ancho disponible */
+    text-decoration: none; /* Elimina el subrayado */
+    color: #ffffff;
+    padding: 16px 18px; /* Espaciado interno */
+    border-radius: 10px;
+    transition: 0.3s;
+    width: 100%;
+}
+
+
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#buscarUsuarios {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s ease;
+    background: #ffffff;
+}
+
+#buscar:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+}
+
+#filtroEstado {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#filtroEstado:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+}
+#navegador a:hover{
+    background: #3c3850ff;
+}
+
+
+
+#dashboard-content{
+    padding: 30px;
+    flex: 1;  /* Permite que el contenido principal ocupe el espacio restante */
+    background: linear-gradient(135deg, #b6c0d3 0%, #485275 50%, #1d2647 100%);
+    /*background: linear-gradient(rgba(47, 91, 211, 0.5), rgba(71, 71, 71, 0.986), rgba(132, 132, 204, 0.5));*/
+    background-attachment: fixed; /* Mantiene el fondo quieto si la lista es muy larga y hay que bajar */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media (max-width: 768px){
+    main{
+        flex-direction: column;
+    }
+    #sidebar{
+        width: 100%;
+    }
+}
+
+
+/* ── USUARIOS ─────────────────────────────── */
+
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-nuevo {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.btn-nuevo:hover {
+    background: #1457a3;
+}
+
+#tablaUsuarios {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    
+}
+
+
+#tablaUsuarios thead {
+    background: #3d5168;
+    color: rgb(248, 248, 248);
+
+}
+
+#tablaUsuarios th,
+#tablaUsuarios td {
+    padding: 12px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+#tablaUsuarios tbody tr {
+    border-bottom: 1px solid #0c0c0c;
+}
+
+#tablaUsuarios tbody tr:hover {
+    background: #f5f5f5;
+}
+
+.estado-aprobado {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    background: #d4edda;
+    color: #155724;
+}
+
+.estado-noaccess {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.btn-editar {
+    background: #ffc107;
+    border: none;
+    padding: 13px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-editar:hover {
+    background: #e0a800;
+}
+
+.btn-eliminar-tabla {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 13px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.btn-eliminar-tabla:hover {
+    background: #a3323d;
+}
+
+/* Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-caja {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modal-chico {
+    width: 300px;
+    text-align: center;
+}
+
+.modal-caja h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.modal-caja p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.modal-caja input,
+.modal-caja select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.modal-botones {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-cancelar {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #ccc;
+    cursor: pointer;
+}
+
+.btn-guardar {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+.btn-eliminar {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #9e0a19;
+    color: white;
+    cursor: pointer;
+}
+
+
+.btn-ver {
+    background: #17a2b8;
+    color: white;
+    border: none;
+    padding: 13px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-ver:hover {
+    background: #117a8b;
+}

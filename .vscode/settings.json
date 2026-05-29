@@ -1,0 +1,18 @@
+{
+    "liveServer.settings.port": 5501,
+    "workbench.commandPalette.experimental.enableNaturalLanguageSearch": true,
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "BD Pinturas",
+            "group": "PostgreSQL",
+            "database": "BDGestionPinturasMejorado",
+            "username": "postgres"
+        }
+    ]
+}

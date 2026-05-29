@@ -1,0 +1,149 @@
+/* ── TOOLBAR ───────────────────────────────────────────────── */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#buscarPerfiles {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.2s ease;
+    background: white;
+}
+
+#buscar:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+}
+
+#filtroEstado {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#filtroEstado:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+}
+
+/* ── TABLA ROLES ───────────────────────────────────────────── */
+#tablaPerfiles {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 19px;
+    font-weight: 700;
+    background: rgb(255, 253, 253);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#tablaPerfiles thead {
+    background: #3d5168;
+    color: rgb(250, 250, 250);
+}
+
+#tablaPerfiles th,
+#tablaPerfiles td {
+    padding: 22px;
+    text-align: center;
+}
+
+#tablaPerfiles tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+#tablaPerfiles tbody tr:hover {
+    background: #f5f5f5;
+}
+
+/* ── MODAL GRANDE ──────────────────────────────────────────── */
+.modal-grande {
+    width: 900px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* ── GRILLA DE PERMISOS MODULAR ────────────────────────────── */
+.permisos-header {
+    display: grid;
+    grid-template-columns: 160px repeat(4, 100px);
+    gap: 4px;
+    padding: 6px 8px;
+    background: #f0f4ff;
+    border-radius: 6px 6px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    text-align: center;
+    margin-top: 6px;
+}
+
+.permisos-header span:first-child {
+    text-align: left;
+}
+
+.permisos-grid-modular {
+    border: 1px solid #dee2e6;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.permiso-fila {
+    display: grid;
+    grid-template-columns: 160px repeat(4, 100px);
+    gap: 4px;
+    padding: 8px;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.permiso-fila:last-child {
+    border-bottom: none;
+}
+
+.permiso-fila:nth-child(even) {
+    background: #fafafa;
+}
+
+.permiso-modulo {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+}
+
+.permiso-check {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+}
+
+.permiso-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #007BFF;
+}
+
+.permiso-check span {
+    display: none; /* Ya se ven en el header */
+}
