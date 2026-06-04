@@ -1,0 +1,463 @@
+/* ============================================================
+   presentaciones.css — Módulo Presentaciones
+   ============================================================ */
+
+:root {
+    --pr-accent:    #3b82f6;
+    --pr-danger:    #dc2626;
+    --pr-surface:   #ffffff;
+    --pr-border:    #e2e8f0;
+    --pr-text:      #1e293b;
+    --pr-muted:     #94a3b8;
+    --pr-row-hover: #f0f6ff;
+    --pr-radius:    10px;
+    --pr-shadow:    0 4px 24px rgba(0,0,0,0.18);
+}
+
+/* ── Encabezado ─────────────────────────────────────────────── */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.encabezado-izq { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.encabezado-izq h2 { font-size: 24px; font-weight: 700; color: #ffffff; }
+
+.badge-total {
+    background: rgba(255,255,255,0.18);
+    color: #dce8ff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+.btn-nuevo {
+    background: var(--pr-accent);
+    color: #fff;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 2px 10px rgba(59,130,246,0.4);
+}
+.btn-nuevo:hover { background: #2563eb; transform: translateY(-1px); }
+
+/* ── Spinner ────────────────────────────────────────────────── */
+#spinnerCarga {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 40px;
+    color: #c8d8ff;
+    font-size: 15px;
+}
+
+.spinner-circulo {
+    width: 28px; height: 28px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: girar 0.75s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* ── Error general ──────────────────────────────────────────── */
+#errorGeneral {
+    display: none;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 14px 18px;
+    border-radius: var(--pr-radius);
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+/* ── Toolbar ────────────────────────────────────────────────── */
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.toolbar input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: var(--pr-radius);
+    font-size: 14px;
+    background: rgba(255,255,255,0.92);
+    outline: none;
+    color: var(--pr-text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.toolbar input[type="text"]:focus {
+    border-color: var(--pr-accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+    background: #fff;
+}
+
+.toolbar select {
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: var(--pr-radius);
+    font-size: 14px;
+    background: rgba(255,255,255,0.92);
+    color: var(--pr-text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.toolbar select:focus {
+    border-color: var(--pr-accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+    background: #fff;
+}
+
+/* ── Tabla ──────────────────────────────────────────────────── */
+.tabla-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: var(--pr-shadow);
+}
+
+#tablaPresentaciones {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--pr-surface);
+    min-width: 660px;
+}
+
+#tablaPresentaciones thead {
+    background: linear-gradient(90deg, #1e2f5e, #3d5168);
+    color: #f0f4ff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#tablaPresentaciones th {
+    padding: 14px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#tablaPresentaciones td {
+    padding: 13px 14px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--pr-text);
+    border-bottom: 1px solid var(--pr-border);
+    vertical-align: middle;
+}
+
+#tablaPresentaciones tbody tr:hover {
+    background: var(--pr-row-hover);
+    transition: background 0.15s;
+}
+
+/* Celda nombre con cantidad grande */
+.td-nombre {
+    text-align: left !important;
+    padding-left: 20px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cantidad-big {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a2744;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+}
+
+.unidad-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.td-desc   { color: #475569; font-size: 13px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.td-vacio  { color: var(--pr-muted); font-style: italic; }
+.td-acciones { display: flex; gap: 8px; justify-content: center; }
+
+.orden-badge {
+    display: inline-block;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+/* ── Tabla vacía ────────────────────────────────────────────── */
+.tabla-vacia { padding: 48px !important; text-align: center; }
+.tabla-vacia span { display: block; color: var(--pr-muted); }
+.vacia-icono { font-size: 36px; margin-bottom: 8px; }
+
+/* ── Badges ─────────────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+.badge-activo  { background: #dcfce7; color: #166534; }
+.badge-inactivo{ background: #fee2e2; color: #991b1b; }
+.badge-visible { background: #dbeafe; color: #1e40af; }
+.badge-oculto  { background: #f3f4f6; color: #6b7280; }
+.badge-prod    { background: #ede9fe; color: #5b21b6; font-size: 13px; padding: 3px 10px; }
+
+/* ── Acciones ───────────────────────────────────────────────── */
+.btn-accion {
+    border: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.18s, transform 0.12s;
+    white-space: nowrap;
+}
+.btn-accion:disabled { opacity: 0.38; cursor: not-allowed; }
+.btn-editar  { background: #f59e0b; color: #fff; }
+.btn-editar:hover:not(:disabled)  { background: #d97706; transform: translateY(-1px); }
+.btn-eliminar { background: #ef4444; color: #fff; }
+.btn-eliminar:hover:not(:disabled) { background: #dc2626; transform: translateY(-1px); }
+
+/* ── Modal ──────────────────────────────────────────────────── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5,15,45,0.60);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-caja {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: slideUp 0.2s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 480px;
+    max-width: 95vw;
+}
+
+.modal-chico { width: 380px; text-align: center; }
+
+@keyframes slideUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e8edf5;
+    padding-bottom: 12px;
+}
+.modal-header h3 { font-size: 17px; font-weight: 700; color: #1a2744; }
+
+.modal-cerrar {
+    background: none; border: none; font-size: 18px;
+    color: #94a3b8; cursor: pointer; padding: 4px 8px;
+    border-radius: 6px; transition: background 0.15s; line-height: 1;
+}
+.modal-cerrar:hover { background: #f0f4ff; color: #333; }
+
+/* Fichas rápidas de fracciones */
+.fichas-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+#fichasRapidas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.ficha-rapida {
+    background: #f0f4ff;
+    border: 1.5px solid #c7d7f8;
+    color: #1e40af;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    font-family: inherit;
+}
+.ficha-rapida:hover {
+    background: #dbeafe;
+    border-color: #3b82f6;
+    transform: translateY(-1px);
+}
+
+/* Grid cantidad + unidad lado a lado */
+.campo-row {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 12px;
+}
+
+/* Preview nombre */
+.preview-nombre {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0c4a6e;
+    text-align: center;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Campos ─────────────────────── */
+.campo { display: flex; flex-direction: column; gap: 5px; }
+.campo label { font-size: 13px; font-weight: 600; color: #475569; }
+.campo label .req { color: #ef4444; }
+
+.campo input[type="number"],
+.campo input[type="text"],
+.campo select,
+.campo textarea {
+    padding: 9px 12px;
+    border: 1px solid #d1d9e8;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background: #f8faff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.campo input:focus, .campo select:focus {
+    border-color: var(--pr-accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.18);
+    background: #fff;
+}
+
+/* Checkbox ───────────────────── */
+.campo-check { margin-top: 2px; }
+.check-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #475569;
+}
+.check-label input[type="checkbox"] {
+    width: 18px; height: 18px;
+    accent-color: var(--pr-accent);
+    cursor: pointer;
+}
+
+/* Error modal */
+.modal-error {
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    padding: 7px 12px;
+    display: none;
+}
+.modal-error:not(:empty) { display: block; }
+
+/* Botones modal */
+.modal-botones {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 6px;
+    border-top: 1px solid #e8edf5;
+    padding-top: 14px;
+}
+
+.btn-cancelar {
+    padding: 9px 22px; border: 1.5px solid #cbd5e1;
+    border-radius: 8px; background: #fff; color: #475569;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s;
+}
+.btn-cancelar:hover { background: #f1f5f9; }
+
+.btn-guardar {
+    padding: 9px 22px; border: none; border-radius: 8px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+    transition: background 0.15s, transform 0.12s;
+}
+.btn-guardar:hover:not(:disabled) { background: linear-gradient(135deg,#1d4ed8,#1e3a8a); transform: translateY(-1px); }
+.btn-guardar:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-eliminar-confirm {
+    padding: 9px 22px; border: none; border-radius: 8px;
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
+    transition: background 0.15s, transform 0.12s;
+}
+.btn-eliminar-confirm:hover:not(:disabled) { background: linear-gradient(135deg,#b91c1c,#7f1d1d); transform: translateY(-1px); }
+.btn-eliminar-confirm:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.modal-icon-warn { font-size: 44px; text-align: center; }
+.modal-chico h3  { color: #1a2744; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.modal-chico p   { color: #555; font-size: 14px; line-height: 1.5; }
+#nombreEliminar  { color: var(--pr-danger); font-weight: 700; }
+
+@media (max-width: 640px) {
+    .campo-row  { grid-template-columns: 1fr; }
+    .modal-caja { padding: 20px 16px; }
+    .toolbar    { flex-direction: column; align-items: stretch; }
+}

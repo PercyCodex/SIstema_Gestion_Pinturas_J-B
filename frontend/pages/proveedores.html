@@ -3,58 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>proveedores - Sistema</title>
-    <link rel="stylesheet" href="../styles/usuarios.css">
-    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
+    <title>Proveedores — Sistema</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/proveedores.css">
+    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
 </head>
 <body>
-    <main>
-        <aside id="sidebar">
+<main>
 
-
-            <div id="sidebar-header">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="40px"
-                        fill="black">
-                        <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z"/>
-                    </svg>
-                <h1 id="bienvenida"></h1>
-                
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+    <aside id="sidebar">
+        <div id="sidebar-header">
+            <div id="usuario">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="40px" fill="white">
+                    <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z"/>
+                </svg>
             </div>
-            
-                <nav id="navegador">
-                    <ul>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="usuarios.html">Usuarios</a></li>
-                        <li><a href="perfiles.html">Perfiles</a></li>
-                        <li><a href="categoria.html">Categoria</a></li>
-                        <li><a href="inventario.html">Inventario</a></li>
-                        <li><a href="productos.html">Productos</a></li>
-                        <li><a href="ventas.html">Ventas</a></li>
-                        <li><a href="clientes.html">Clientes</a></li>
-                        <li><a href="presentaciones.html">Presentaciones</a></li>
-                        <li><a href="proveedores.html">Proveedores</a></li>
-                        <li><a href="gestion_tienda.html">Gestión Tienda</a></li>
-                        <li><a href="cotizaciones.html">Cotizaciones</a></li>
-                        <li><a href="configuraciones.html">Configuraciones</a></li>
-                    </ul>
-                </nav>
-        </aside>
-        <section id="dashboard-content">
-            <h2>Proveedores</h2>
-            <p>Vista previa de todos los proveedores</p>
+            <h1 id="bienvenida"></h1>
+        </div>
+        <nav id="navegador">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="usuarios.html">Usuarios</a></li>
+                <li><a href="perfiles.html">Perfiles</a></li>
+                <li><a href="categoria.html">Categorías</a></li>
+                <li><a href="marcas.html">Marcas</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="ventas.html">Ventas</a></li>
+                <li><a href="clientes.html">Clientes</a></li>
+                <li><a href="presentaciones.html">Presentaciones</a></li>
+                <li><a href="proveedores.html">Proveedores</a></li>
+                <li><a href="gestion_tienda.html">Gestión Tienda</a></li>
+                <li><a href="cotizaciones.html">Cotizaciones</a></li>
+                <li><a href="configuraciones.html">Configuraciones</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-        </section>
+    <!-- ══ CONTENIDO PRINCIPAL ══════════════════════════════════ -->
+    <section id="dashboard-content">
 
-    </main>
+        <!-- Encabezado -->
+        <div class="encabezado">
+            <div class="encabezado-izq">
+                <h2>Proveedores</h2>
+                <span id="totalProveedores" class="badge-total"></span>
+            </div>
+            <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nuevo Proveedor</button>
+        </div>
 
+        <!-- Tarjetas de stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-info">
+                    <span id="statTotal" class="stat-valor">—</span>
+                    <span class="stat-label">Total</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <span id="statActivos" class="stat-valor">—</span>
+                    <span class="stat-label">Activos</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-info">
+                    <span id="statConProductos" class="stat-valor">—</span>
+                    <span class="stat-label">Con productos</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🌍</div>
+                <div class="stat-info">
+                    <span id="statCiudades" class="stat-valor">—</span>
+                    <span class="stat-label">Ciudades</span>
+                </div>
+            </div>
+        </div>
 
+        <div id="errorGeneral"></div>
 
-</body>
+        <div id="spinnerCarga">
+            <div class="spinner-circulo"></div>
+            <span>Cargando proveedores…</span>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="buscarProveedor"
+                       placeholder="Buscar por razón social, RUC, contacto…"
+                       oninput="filtrarProveedores()" autocomplete="off">
+            </div>
+
+            <select id="filtroEstado" onchange="filtrarProveedores()">
+                <option value="">Todos los estados</option>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+            </select>
+
+            <select id="filtroCiudad" onchange="filtrarProveedores()">
+                <option value="">Todas las ciudades</option>
+            </select>
+        </div>
+
+        <!-- Tabla -->
+        <div class="tabla-wrapper">
+            <table id="tablaProveedores">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;padding-left:20px">Empresa</th>
+                        <th>Contacto</th>
+                        <th>Ubicación</th>
+                        <th>Suministros</th>
+                        <th>Estado</th>
+                        <th>Registro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoProveedores"></tbody>
+            </table>
+        </div>
+
+        <!-- ══ MODAL CREAR / EDITAR ══════════════════════════════ -->
+        <div id="modalProveedor" class="modal-overlay">
+            <div class="modal-caja modal-grande">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <h3 id="tituloModal">Nuevo Proveedor</h3>
+                        <span class="modal-header-sub">Complete los datos del proveedor</span>
+                    </div>
+                    <button class="modal-cerrar" onclick="cerrarModalForm()" title="Cerrar">✕</button>
+                </div>
+
+                <!-- Sección: Datos de empresa -->
+                <div class="form-section">
+                    <div class="form-section-title">🏢 Datos de la Empresa</div>
+                    <div class="form-section-body">
+                        <div class="campo">
+                            <label for="inRuc">RUC <span class="req">*</span></label>
+                            <input id="inRuc" type="text" placeholder="Ej: 20123456789" maxlength="20" autocomplete="off">
+                        </div>
+                        <div class="campo">
+                            <label for="inRazonSocial">Razón Social <span class="req">*</span></label>
+                            <input id="inRazonSocial" type="text" placeholder="Nombre legal completo" maxlength="150" autocomplete="off">
+                        </div>
+                        <div class="campo campo-full">
+                            <label for="inNombreComercial">Nombre Comercial</label>
+                            <input id="inNombreComercial" type="text" placeholder="Nombre que usa en el mercado (opcional)" maxlength="150" autocomplete="off">
+                        </div>
+                        <div class="campo">
+                            <label for="inEstado">Estado</label>
+                            <select id="inEstado">
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Contacto -->
+                <div class="form-section">
+                    <div class="form-section-title">👤 Datos de Contacto</div>
+                    <div class="form-section-body">
+                        <div class="campo">
+                            <label for="inContactoNombre">Nombre del Contacto</label>
+                            <input id="inContactoNombre" type="text" placeholder="Persona de contacto" maxlength="120" autocomplete="off">
+                        </div>
+                        <div class="campo">
+                            <label for="inTelefono">Teléfono</label>
+                            <input id="inTelefono" type="text" placeholder="Ej: 074-123456 / 987654321" maxlength="20" autocomplete="off">
+                        </div>
+                        <div class="campo campo-full">
+                            <label for="inCorreo">Correo Electrónico</label>
+                            <input id="inCorreo" type="email" placeholder="correo@empresa.com" maxlength="120" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Ubicación -->
+                <div class="form-section">
+                    <div class="form-section-title">📍 Ubicación</div>
+                    <div class="form-section-body">
+                        <div class="campo">
+                            <label for="inCiudad">Ciudad</label>
+                            <input id="inCiudad" type="text" placeholder="Ej: Lima, Chiclayo, Trujillo" maxlength="80" autocomplete="off">
+                        </div>
+                        <div class="campo">
+                            <label for="inPais">País</label>
+                            <input id="inPais" type="text" placeholder="Ej: Perú" maxlength="60" autocomplete="off" value="Perú">
+                        </div>
+                        <div class="campo campo-full">
+                            <label for="inDireccion">Dirección</label>
+                            <input id="inDireccion" type="text" placeholder="Dirección completa" maxlength="255" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Notas -->
+                <div class="form-section">
+                    <div class="form-section-title">📝 Observaciones</div>
+                    <div class="form-section-body">
+                        <div class="campo campo-full">
+                            <label for="inNotas">Notas (condiciones de pago, plazos, observaciones)</label>
+                            <textarea id="inNotas" placeholder="Ej: Pago a 30 días, entrega en almacén…" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="modalError" class="modal-error"></p>
+
+                <div class="modal-botones">
+                    <button class="btn-cancelar" onclick="cerrarModalForm()">Cancelar</button>
+                    <button id="btnGuardar" class="btn-guardar" onclick="guardarProveedor()">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ MODAL VER DETALLE ══════════════════════════════════ -->
+        <div id="modalVer" class="modal-overlay">
+            <div class="modal-caja modal-xl">
+                <div class="modal-header">
+                    <div class="modal-header-left">
+                        <h3>Detalle del Proveedor</h3>
+                    </div>
+                    <button class="modal-cerrar" onclick="cerrarModalVer()">✕</button>
+                </div>
+
+                <!-- Header del proveedor con avatar -->
+                <div id="verHeaderProveedor" class="ver-header"></div>
+
+                <!-- Tabs -->
+                <div class="ver-tabs">
+                    <button class="ver-tab activo" onclick="cambiarTab(this, 'tabInfo')">📋 Información</button>
+                    <button class="ver-tab" onclick="cambiarTab(this, 'tabProductos')">📦 Productos</button>
+                    <button class="ver-tab" onclick="cambiarTab(this, 'tabHerramientas')">🔧 Herramientas</button>
+                </div>
+
+                <!-- Tab: Info general -->
+                <div id="tabInfo" class="ver-tab-content activo">
+                    <div id="verContenido" class="ver-grid"></div>
+                </div>
+
+                <!-- Tab: Productos que suministra -->
+                <div id="tabProductos" class="ver-tab-content">
+                    <div id="verProductos"></div>
+                </div>
+
+                <!-- Tab: Herramientas que suministra -->
+                <div id="tabHerramientas" class="ver-tab-content">
+                    <div id="verHerramientas"></div>
+                </div>
+
+                <div class="modal-botones">
+                    <button class="btn-cancelar" onclick="cerrarModalVer()">Cerrar</button>
+                    <button class="btn-guardar" onclick="editarDesdeVer()">✏️ Editar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ MODAL ELIMINAR ════════════════════════════════════ -->
+        <div id="modalEliminar" class="modal-overlay">
+            <div class="modal-caja modal-chico">
+                <div class="modal-icon-warn">⚠️</div>
+                <h3>¿Eliminar proveedor?</h3>
+                <p>
+                    El proveedor <strong><span id="nombreEliminar"></span></strong> será
+                    eliminado permanentemente. Esta acción no se puede deshacer.
+                </p>
+                <div class="modal-botones" style="justify-content:center; margin-top:12px;">
+                    <button class="btn-cancelar" onclick="cerrarModalEliminar()">Cancelar</button>
+                    <button id="btnConfirmarEliminar" class="btn-eliminar-confirm" onclick="confirmarEliminar()">Sí, eliminar</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
 <script src="../scripts/script.js"></script>
+<script src="../scripts/proveedores.js"></script>
+</body>
 </html>

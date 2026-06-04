@@ -3,58 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario - Sistema</title>
+    <title>Inventario — Pinturas Universal J&B</title>
     <link rel="stylesheet" href="../styles/usuarios.css">
-    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
+    <link rel="stylesheet" href="../styles/inventario.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <main>
-        <aside id="sidebar">
-
-
-            <div id="sidebar-header">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="40px"
-                        fill="black">
-                        <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z"/>
-                    </svg>
-                <h1 id="bienvenida"></h1>
-                
+<main>
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+    <aside id="sidebar">
+        <div id="sidebar-header">
+            <div id="usuario">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="40px" fill="white">
+                    <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z"/>
+                </svg>
             </div>
-            
-                <nav id="navegador">
-                    <ul>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="usuarios.html">Usuarios</a></li>
-                        <li><a href="perfiles.html">Perfiles</a></li>
-                        <li><a href="categoria.html">Categoria</a></li>
-                        <li><a href="inventario.html">Inventario</a></li>
-                        <li><a href="productos.html">Productos</a></li>
-                        <li><a href="ventas.html">Ventas</a></li>
-                        <li><a href="clientes.html">Clientes</a></li>
-                        <li><a href="presentaciones.html">Presentaciones</a></li>
-                        <li><a href="proveedores.html">Proveedores</a></li>
-                        <li><a href="gestion_tienda.html">Gestión Tienda</a></li>
-                        <li><a href="cotizaciones.html">Cotizaciones</a></li>
-                        <li><a href="configuraciones.html">Configuraciones</a></li>
-                    </ul>
-                </nav>
-        </aside>
-        <section id="dashboard-content">
-            <h2>Inventario</h2>
-            <p>Vista previa de todos los productos en inventario</p>
+            <h1 id="bienvenida"></h1>
+        </div>
+        <nav id="navegador">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="usuarios.html">Usuarios</a></li>
+                <li><a href="perfiles.html">Perfiles</a></li>
+                <li><a href="categoria.html">Categorías</a></li>
+                <li><a href="marcas.html">Marcas</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="ventas.html">Ventas</a></li>
+                <li><a href="clientes.html">Clientes</a></li>
+                <li><a href="presentaciones.html">Presentaciones</a></li>
+                <li><a href="proveedores.html">Proveedores</a></li>
+                <li><a href="gestion_tienda.html">Gestión Tienda</a></li>
+                <li><a href="cotizaciones.html">Cotizaciones</a></li>
+                <li><a href="configuraciones.html">Configuraciones</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-        </section>
+    <section id="dashboard-content">
 
-    </main>
+        <!-- ENCABEZADO -->
+        <div class="inv-encabezado">
+            <div>
+                <h2 class="inv-titulo">Inventario</h2>
+                <p class="inv-subtitulo">Control de stock, movimientos y precios · sincronizado con Productos y Presentaciones</p>
+            </div>
+            <button class="inv-btn-excel" onclick="exportarStockExcel()">📥 Exportar Excel</button>
+        </div>
+
+        <!-- CARDS RESUMEN -->
+        <div class="inv-cards">
+            <div class="inv-card inv-card-total">
+                <div class="inv-card-icon">📦</div>
+                <div class="inv-card-data">
+                    <span class="inv-card-num" id="statTotal">—</span>
+                    <span class="inv-card-lbl">Total Ítems</span>
+                </div>
+            </div>
+            <div class="inv-card inv-card-critico" onclick="filtrarRapido('critico')" title="Ver sin stock">
+                <div class="inv-card-icon">🔴</div>
+                <div class="inv-card-data">
+                    <span class="inv-card-num" id="statCritico">—</span>
+                    <span class="inv-card-lbl">Sin Stock</span>
+                </div>
+            </div>
+            <div class="inv-card inv-card-bajo" onclick="filtrarRapido('bajo')" title="Ver stock bajo">
+                <div class="inv-card-icon">🟡</div>
+                <div class="inv-card-data">
+                    <span class="inv-card-num" id="statBajo">—</span>
+                    <span class="inv-card-lbl">Stock Bajo</span>
+                </div>
+            </div>
+            <div class="inv-card inv-card-ok" onclick="filtrarRapido('ok')" title="Ver stock normal">
+                <div class="inv-card-icon">🟢</div>
+                <div class="inv-card-data">
+                    <span class="inv-card-num" id="statOk">—</span>
+                    <span class="inv-card-lbl">Normal</span>
+                </div>
+            </div>
+            <div class="inv-card inv-card-valor">
+                <div class="inv-card-icon">💰</div>
+                <div class="inv-card-data">
+                    <span class="inv-card-num inv-card-num-sm" id="statValor">—</span>
+                    <span class="inv-card-lbl">Valor Inventario</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOOLBAR FILTROS -->
+        <div class="inv-toolbar">
+            <div class="inv-search-wrap">
+                <span class="inv-search-ico">🔍</span>
+                <input type="text" id="buscarStock"
+                       placeholder="Buscar producto, marca, SKU o presentación..."
+                       oninput="debounceSearch()" autocomplete="off">
+            </div>
+            <select id="filtroMarcaStock" onchange="filtrarStock()">
+                <option value="">Todas las marcas</option>
+            </select>
+            <select id="filtroTipoItem" onchange="filtrarStock()">
+                <option value="">Pinturas y Herramientas</option>
+                <option value="pintura">Solo Pinturas</option>
+                <option value="herramienta">Solo Herramientas</option>
+            </select>
+            <select id="filtroSemaforo" onchange="filtrarStock()">
+                <option value="">Todos los estados</option>
+                <option value="critico">Sin stock</option>
+                <option value="bajo">Stock bajo</option>
+                <option value="ok">Normal</option>
+            </select>
+        </div>
+
+        <!-- SPINNER -->
+        <div id="spinnerStock" class="inv-spinner" style="display:none">
+            <div class="inv-spin"></div>
+            <span>Cargando inventario...</span>
+        </div>
+
+        <!-- TABLA STOCK -->
+        <div class="inv-tabla-wrap">
+            <table id="tablaStock">
+                <thead>
+                    <tr>
+                        <th class="th-producto">Producto</th>
+                        <th>Presentación</th>
+                        <th class="th-stock">Stock Actual</th>
+                        <th class="th-min">Stock Mín.</th>
+                        <th class="th-precio">P. Compra</th>
+                        <th class="th-precio">P. Venta</th>
+                        <th class="th-estado">Estado Stock</th>
+                        <th class="th-acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoStock">
+                    <tr><td colspan="8" class="inv-loading">
+                        <div class="inv-spin-inline"></div>
+                        Cargando inventario...
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGINACIÓN -->
+        <div class="inv-paginacion" id="paginacion" style="display:none">
+            <button id="btnPrevPage" onclick="cambiarPagina(-1)" disabled>← Anterior</button>
+            <span id="infoPagina">Página 1</span>
+            <button id="btnNextPage" onclick="cambiarPagina(1)">Siguiente →</button>
+        </div>
 
 
+        <!-- ════ MODAL EDITOR DE PRECIOS ════════════════════════ -->
+        <div id="modalEditarPrecios" class="inv-modal-overlay">
+            <div class="inv-modal-caja inv-modal-precio">
+                <div class="inv-modal-header">
+                    <div>
+                        <h3>Editar Precios</h3>
+                        <span id="editPrecioTitulo" class="inv-modal-sub"></span>
+                    </div>
+                    <button class="inv-modal-cerrar" onclick="cerrarModal('modalEditarPrecios')">✕</button>
+                </div>
 
-</body>
+                <div class="inv-precio-cards">
+                    <div class="inv-precio-card inv-precio-compra">
+                        <div class="inv-precio-card-ico">🏭</div>
+                        <div>
+                            <div class="inv-precio-card-lbl">Precio de Compra</div>
+                            <div class="inv-precio-card-desc">Lo que pagaste al proveedor.</div>
+                        </div>
+                    </div>
+                    <div class="inv-precio-card inv-precio-venta">
+                        <div class="inv-precio-card-ico">🏷️</div>
+                        <div>
+                            <div class="inv-precio-card-lbl">Precio de Venta</div>
+                            <div class="inv-precio-card-desc">Lo que cobra la tienda.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inv-precio-campos">
+                    <div class="inv-campo">
+                        <label>💰 Precio de Compra (S/)</label>
+                        <input type="number" id="editPrecioCosto" min="0" step="0.01" placeholder="0.00" oninput="calcularMargen()">
+                    </div>
+                    <div class="inv-campo">
+                        <label>🏷️ Precio de Venta (S/)</label>
+                        <input type="number" id="editPrecioVenta" min="0" step="0.01" placeholder="0.00" oninput="calcularMargen()">
+                    </div>
+                </div>
+
+                <div id="editMargenInfo" class="inv-margen-info"></div>
+
+                <div id="editSyncRow" class="inv-sync-check">
+                    <input type="checkbox" id="editSincronizarProducto" checked>
+                    <span><strong>Sincronizar con Productos</strong> — el precio de venta también se actualiza en la ficha del producto.</span>
+                </div>
+
+                <p id="editPrecioError" class="inv-error"></p>
+
+                <div class="inv-modal-btns">
+                    <button class="inv-btn-cancelar" onclick="cerrarModal('modalEditarPrecios')">Cancelar</button>
+                    <button id="btnGuardarPrecios" class="inv-btn-guardar inv-btn-guardar-default" onclick="guardarPrecios()">Guardar Precios</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ════ MODAL MOVIMIENTO — 3 tipos distintos ═══════════ -->
+        <div id="modalMovimiento" class="inv-modal-overlay">
+            <div class="inv-modal-caja inv-modal-mov" style="width:540px">
+
+                <!-- Header que cambia de color según tipo -->
+                <div id="movHeader" class="inv-modal-header">
+                    <div>
+                        <h3>Registrar Movimiento</h3>
+                        <span id="movSubtitulo" class="inv-modal-sub"></span>
+                    </div>
+                    <button class="inv-modal-cerrar" onclick="cerrarModalMovimiento()">✕</button>
+                </div>
+
+                <!-- Selector visual de tipo -->
+                <div class="inv-tipo-selector">
+                    <button id="btnTipoENTRADA" class="inv-tipo-btn" onclick="seleccionarTipoMov('ENTRADA')">
+                        <span class="tipo-ico">📥</span>
+                        <span class="tipo-nombre">ENTRADA</span>
+                        <span class="tipo-desc">Llega mercancía</span>
+                    </button>
+                    <button id="btnTipoSALIDA" class="inv-tipo-btn" onclick="seleccionarTipoMov('SALIDA')">
+                        <span class="tipo-ico">📤</span>
+                        <span class="tipo-nombre">SALIDA</span>
+                        <span class="tipo-desc">Sale producto</span>
+                    </button>
+                    <button id="btnTipoAJUSTE" class="inv-tipo-btn" onclick="seleccionarTipoMov('AJUSTE')">
+                        <span class="tipo-ico">⚖️</span>
+                        <span class="tipo-nombre">AJUSTE</span>
+                        <span class="tipo-desc">Corrección conteo</span>
+                    </button>
+                </div>
+
+                <!-- Motivo — aparece al elegir tipo -->
+                <div id="seccionMotivo" style="display:none">
+                    <div class="inv-campo">
+                        <label>Motivo <span class="req">*</span></label>
+                        <select id="movMotivo">
+                            <option value="">-- Seleccionar motivo --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cantidad — aparece al elegir tipo -->
+                <div id="seccionCantidad" style="display:none">
+                    <div class="inv-campo">
+                        <label id="labelCantidad">Cantidad <span class="req">*</span></label>
+                        <input type="number" id="movCantidad" min="1" step="1" placeholder="Ej: 10">
+                        <small id="movStockInfo" class="inv-stock-hint"></small>
+                    </div>
+                </div>
+
+                <!-- Sección ENTRADA -->
+                <div id="seccionEntrada" style="display:none">
+                    <div class="inv-seccion inv-seccion-entrada">
+                        <div class="inv-seccion-titulo">📥 Datos de la Entrada</div>
+                        <div class="inv-fila2">
+                            <div class="inv-campo">
+                                <label>Precio Compra (S/)</label>
+                                <input type="number" id="movPrecioCompra" min="0" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="inv-campo">
+                                <label>Proveedor</label>
+                                <select id="movProveedor">
+                                    <option value="">Sin proveedor</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección SALIDA -->
+                <div id="seccionSalida" style="display:none">
+                    <div class="inv-seccion inv-seccion-salida">
+                        <div class="inv-seccion-titulo">📤 Datos de la Salida</div>
+                        <p style="font-size:13px;color:#92400e;line-height:1.5">
+                            Se descontará del stock actual. Verifica la cantidad antes de confirmar.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Sección AJUSTE -->
+                <div id="seccionAjuste" style="display:none">
+                    <div class="inv-seccion inv-seccion-ajuste">
+                        <div class="inv-seccion-titulo">⚖️ Información del Ajuste</div>
+                        <div class="inv-ajuste-tip">
+                            💡 Ingresa el número <strong>TOTAL</strong> de unidades contadas físicamente.
+                            El sistema calculará la diferencia automáticamente.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info usuario y fecha -->
+                <div class="inv-fila2">
+                    <div class="inv-campo">
+                        <label>Registrado por</label>
+                        <div class="inv-info-pill inv-pill-user">
+                            <span>👤</span>
+                            <span id="movUsuarioDisplay"></span>
+                        </div>
+                    </div>
+                    <div class="inv-campo">
+                        <label>Fecha y hora</label>
+                        <div class="inv-info-pill inv-pill-date">
+                            <span>📅</span>
+                            <span id="movFechaDisplay"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Observación -->
+                <div class="inv-campo">
+                    <label>Observación <small>(opcional)</small></label>
+                    <textarea id="movObservacion" rows="2" placeholder="Detalles adicionales..."></textarea>
+                </div>
+
+                <p id="movError" class="inv-error"></p>
+
+                <div class="inv-modal-btns">
+                    <button class="inv-btn-cancelar" onclick="cerrarModalMovimiento()">Cancelar</button>
+                    <button id="btnGuardarMov" class="inv-btn-guardar inv-btn-guardar-default" onclick="guardarMovimiento()">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ════ MODAL KARDEX — botón naranja 🕐 ════════════════ -->
+        <div id="modalKardex" class="inv-modal-overlay">
+            <div class="inv-modal-caja inv-modal-xl">
+                <div class="inv-modal-header">
+                    <div>
+                        <h3 id="kardexTitulo">Historial de Movimientos</h3>
+                        <span id="kardexSubtitulo" class="inv-modal-sub"></span>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center">
+                        <button class="inv-btn-excel-sm" onclick="exportarKardexExcel()">📊 Excel</button>
+                        <button class="inv-modal-cerrar" onclick="cerrarKardex()">✕</button>
+                    </div>
+                </div>
+                <div class="inv-tabla-wrap inv-kardex-body">
+                    <table id="tablaKardex">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Motivo</th>
+                                <th>Cantidad</th>
+                                <th>Stock Ant.</th>
+                                <th>Stock Nuevo</th>
+                                <th>Observación</th>
+                                <th>Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoKardex">
+                            <tr><td colspan="8" class="inv-vacia">Sin movimientos.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="inv-modal-footer">
+                    <span id="kardexPieInfo" class="inv-kardex-pie"></span>
+                    <button class="inv-btn-cancelar" onclick="cerrarKardex()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ════ MODAL HISTORIAL VENTAS — botón verde 📈 ════════ -->
+        <div id="modalVentas" class="inv-modal-overlay">
+            <div class="inv-modal-caja inv-modal-ventas inv-modal-xl">
+                <div class="inv-modal-header">
+                    <div>
+                        <h3 id="ventasTitulo">Historial de Ventas</h3>
+                        <span id="ventasSubtitulo" class="inv-modal-sub"></span>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center">
+                        <button class="inv-btn-excel-sm" style="background:#22c55e" onclick="exportarVentasExcel()">📊 Excel</button>
+                        <button class="inv-modal-cerrar" onclick="cerrarVentas()">✕</button>
+                    </div>
+                </div>
+                <div class="inv-tabla-wrap inv-ventas-body">
+                    <table id="tablaVentas">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>N° Doc</th>
+                                <th>Fecha</th>
+                                <th>Cliente</th>
+                                <th>Vendedor</th>
+                                <th>F. Pago</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoVentas">
+                            <tr><td colspan="9" class="inv-vacia">Sin ventas.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="inv-ventas-footer">
+                    <span id="ventasPieInfo" class="inv-kardex-pie"></span>
+                    <span id="ventasTotal" class="inv-ventas-total"></span>
+                    <button class="inv-btn-cancelar" onclick="cerrarVentas()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
 <script src="../scripts/script.js"></script>
+<script src="../scripts/inventario.js"></script>
+</body>
 </html>

@@ -3,23 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorías de Pinturas — Sistema</title>
-
-    <!-- Fuentes -->
+    <title>Marcas — Sistema</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Estilos: base del sistema + módulo categorías -->
     <link rel="stylesheet" href="../styles/usuarios.css">
-    <link rel="stylesheet" href="../styles/categoria.css">
-
+    <link rel="stylesheet" href="../styles/marcas.css">
     <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
 </head>
 <body>
 <main>
 
-    <!-- ══════════ SIDEBAR ══════════════════════════════════════════ -->
     <aside id="sidebar">
         <div id="sidebar-header">
             <div id="usuario">
@@ -29,7 +23,6 @@
             </div>
             <h1 id="bienvenida"></h1>
         </div>
-
         <nav id="navegador">
             <ul>
                 <li><a href="dashboard.html">Dashboard</a></li>
@@ -50,86 +43,76 @@
         </nav>
     </aside>
 
-    <!-- ══════════ CONTENIDO PRINCIPAL ══════════════════════════════ -->
     <section id="dashboard-content">
 
-        <!-- Encabezado -->
         <div class="encabezado">
             <div class="encabezado-izq">
-                <h2>Categorías de Pinturas</h2>
-                <span id="totalCategorias" class="badge-total">— registros</span>
+                <h2>Marcas</h2>
+                <span id="totalMarcas" class="badge-total"></span>
             </div>
-            <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nueva Categoría</button>
+            <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nueva Marca</button>
         </div>
 
-        <!-- Error general (visible solo si falla el fetch inicial) -->
         <div id="errorGeneral"></div>
 
-        <!-- Spinner de carga -->
         <div id="spinnerCarga">
             <div class="spinner-circulo"></div>
-            <span>Cargando categorías…</span>
+            <span>Cargando marcas…</span>
         </div>
 
+        <!-- Filtro fechas -->
         <div class="filtro-fechas">
             <label>Desde</label>
-            <input type="date" id="filtroDesde" onchange="filtrarCategorias()">
+            <input type="date" id="filtroDesde" onchange="filtrarMarcas()">
             <label>Hasta</label>
-            <input type="date" id="filtroHasta" onchange="filtrarCategorias()">
+            <input type="date" id="filtroHasta" onchange="filtrarMarcas()">
         </div>
 
-        <!-- Toolbar búsqueda / filtros -->
+        <!-- Toolbar -->
         <div class="toolbar">
-            <input
-                type="text"
-                id="buscarCategoria"
-                placeholder="Buscar por nombre o descripción…"
-                oninput="filtrarCategorias()"
-                autocomplete="off">
+            <input type="text" id="buscarMarca" placeholder="Buscar por nombre, descripción o país…"
+                   oninput="filtrarMarcas()" autocomplete="off">
 
-            <select id="filtroEstado" onchange="filtrarCategorias()">
+            <select id="filtroEstado" onchange="filtrarMarcas()">
                 <option value="">Todos los estados</option>
                 <option value="activo">Activo</option>
                 <option value="inactivo">Inactivo</option>
             </select>
 
-            <select id="filtroTipo" onchange="filtrarCategorias()">
-                <option value="">Filtrar por tipo de pintura</option>
-                <!-- Opciones cargadas dinámicamente desde la BD -->
+            <select id="filtroPais" onchange="filtrarMarcas()">
+                <option value="">Filtrar por país</option>
             </select>
         </div>
 
         <!-- Tabla -->
         <div class="tabla-wrapper">
-            <table id="tablaCategorias">
+            <table id="tablaMarcas">
                 <thead>
                     <tr>
                         <th style="text-align:left;padding-left:16px">Nombre</th>
-                        <th>Categoría Base</th>
                         <th>Descripción</th>
-                        <th>Fecha Creación</th>
-                        <th style="width:110px">Estado</th>
-                        <th style="width:170px">Acciones</th>
+                        <th>País de Origen</th>
+                        <th>Productos</th>
+                        <th>Estado</th>
+                        <th>Fecha Registro</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="cuerpoCategorias">
-                    <!-- Renderizado por JS -->
-                </tbody>
+                <tbody id="cuerpoMarcas"></tbody>
             </table>
         </div>
 
-        <!-- ══════ MODAL CREAR / EDITAR ══════════════════════════════ -->
-        <div id="modalCategoria" class="modal-overlay">
+        <!-- Modal Crear / Editar -->
+        <div id="modalMarca" class="modal-overlay">
             <div class="modal-caja">
-
                 <div class="modal-header">
-                    <h3 id="tituloModal">Nueva Categoría</h3>
+                    <h3 id="tituloModal">Nueva Marca</h3>
                     <button class="modal-cerrar" onclick="cerrarModalForm()" title="Cerrar">✕</button>
                 </div>
 
                 <div class="campo">
                     <label for="inNombre">Nombre <span class="req">*</span></label>
-                    <input id="inNombre" type="text" placeholder="Ej: Esmaltes al agua" maxlength="100" autocomplete="off">
+                    <input id="inNombre" type="text" placeholder="Ej: Sherwin-Williams" maxlength="80" autocomplete="off">
                 </div>
 
                 <div class="campo">
@@ -138,11 +121,8 @@
                 </div>
 
                 <div class="campo">
-                    <label for="inPadre">Tipo de pintura / Categoría Base</label>
-                    <select id="inPadre">
-                        <!-- Opciones llenadas por JS desde memoria -->
-                        <option value="">— Categoría principal (raíz) —</option>
-                    </select>
+                    <label for="inPais">País de Origen</label>
+                    <input id="inPais" type="text" placeholder="Ej: Estados Unidos" maxlength="60" autocomplete="off">
                 </div>
 
                 <div class="campo">
@@ -153,45 +133,32 @@
                     </select>
                 </div>
 
-                <!-- Error inline -->
                 <p id="modalError" class="modal-error"></p>
 
                 <div class="modal-botones">
                     <button class="btn-cancelar" onclick="cerrarModalForm()">Cancelar</button>
-                    <button id="btnGuardar" class="btn-guardar" onclick="guardarCategoria()">Guardar</button>
+                    <button id="btnGuardar" class="btn-guardar" onclick="guardarMarca()">Guardar</button>
                 </div>
-
             </div>
         </div>
 
-        <!-- ══════ MODAL ELIMINAR ═════════════════════════════════════ -->
+        <!-- Modal Eliminar -->
         <div id="modalEliminar" class="modal-overlay">
             <div class="modal-caja modal-chico">
-
                 <div class="modal-icon-warn">⚠️</div>
-                <h3>¿Eliminar categoría?</h3>
-                <p>
-                    La categoría <strong><span id="nombreEliminar"></span></strong> será
-                    removida permanentemente. Esta acción no se puede deshacer.
-                </p>
-
+                <h3>¿Eliminar marca?</h3>
+                <p>La marca <strong><span id="nombreEliminar"></span></strong> será removida permanentemente.</p>
                 <div class="modal-botones" style="justify-content:center;">
-                    <button class="btn-cancelar"        onclick="cerrarModalEliminar()">Cancelar</button>
-                    <button id="btnConfirmarEliminar"
-                            class="btn-eliminar-confirm"
-                            onclick="confirmarEliminar()">Sí, eliminar</button>
+                    <button class="btn-cancelar" onclick="cerrarModalEliminar()">Cancelar</button>
+                    <button id="btnConfirmarEliminar" class="btn-eliminar-confirm" onclick="confirmarEliminar()">Sí, eliminar</button>
                 </div>
-
             </div>
         </div>
 
     </section>
 </main>
 
-<!-- Scripts: base del sistema primero, luego módulo -->
 <script src="../scripts/script.js"></script>
-<script src="../scripts/categoria.js"></script>
-
-
+<script src="../scripts/marcas.js"></script>
 </body>
 </html>

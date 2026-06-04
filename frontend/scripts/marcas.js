@@ -1,7 +1,7 @@
 "use strict";
 
 const db = {
-    categorias: [],
+    marcas: [],
     editandoId: null,
     eliminandoId: null,
     eliminandoNombre: null,
@@ -19,42 +19,46 @@ document.addEventListener("DOMContentLoaded", () => {
 async function iniciarPagina() {
     mostrarSpinner(true);
     try {
-        const res = await fetch(`${API}/categorias`);
-        if (!res.ok) throw new Error("Error al cargar categorías");
-        db.categorias = await res.json();
-        llenarFiltroTipo();
-        // Mensaje inicial — invita al usuario a usar los filtros
-        document.getElementById("cuerpoCategorias").innerHTML = `
-            <tr>
-                <td colspan="6" class="tabla-vacia">
-                    <span class="vacia-icono">🔍</span>
-                    <span>Selecciona un filtro o busca para ver las categorías</span>
-                </td>
-            </tr>`;
+        const res = await fetch(`${API}/marcas/todas`);
+        if (!res.ok) throw new Error("Error al cargar marcas");
+        db.marcas = await res.json();
+        llenarFiltroPais();
+        mostrarMensajeInicial();
         actualizarContador(0);
     } catch (err) {
-        mostrarError(`No se pudieron cargar las categorías: ${err.message}`);
+        mostrarError(`No se pudieron cargar las marcas: ${err.message}`);
     } finally {
         mostrarSpinner(false);
     }
 }
-// ─── Llenar filtro tipo con categorías padre reales ──────────────────────────
-function llenarFiltroTipo() {
-    const select = document.getElementById("filtroTipo");
-    select.innerHTML = `<option value="">Filtrar por tipo de pintura</option>`;
-    db.categorias
-        .filter(c => !c.id_padre)
-        .forEach(p => {
-            const opt = document.createElement("option");
-            opt.value       = p.id_categoria;
-            opt.textContent = p.nombre;
-            select.appendChild(opt);
-        });
+
+// ─── Mensaje inicial ─────────────────────────────────────────────────────────
+function mostrarMensajeInicial() {
+    document.getElementById("cuerpoMarcas").innerHTML = `
+        <tr>
+            <td colspan="6" class="tabla-vacia">
+                <span class="vacia-icono">🔍</span>
+                <span>Selecciona un filtro o busca para ver las marcas</span>
+            </td>
+        </tr>`;
+}
+
+// ─── Llenar filtro país dinámico ─────────────────────────────────────────────
+function llenarFiltroPais() {
+    const select = document.getElementById("filtroPais");
+    select.innerHTML = `<option value="">Filtrar por país</option>`;
+    const paises = [...new Set(db.marcas.map(m => m.pais_origen).filter(Boolean))].sort();
+    paises.forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p;
+        opt.textContent = p;
+        select.appendChild(opt);
+    });
 }
 
 // ─── Render tabla ────────────────────────────────────────────────────────────
 function renderTabla(lista) {
-    const tbody = document.getElementById("cuerpoCategorias");
+    const tbody = document.getElementById("cuerpoMarcas");
     tbody.innerHTML = "";
 
     if (!lista || lista.length === 0) {
@@ -68,140 +72,103 @@ function renderTabla(lista) {
         return;
     }
 
-    const padres = lista.filter(c => !c.id_padre);
-    const hijos  = lista.filter(c =>  c.id_padre);
-
-    padres.forEach(padre => {
-        tbody.appendChild(crearFila(padre, false));
-        hijos
-            .filter(h => h.id_padre === padre.id_categoria)
-            .forEach(h => tbody.appendChild(crearFila(h, true)));
-    });
-
-    hijos
-        .filter(h => !padres.find(p => p.id_categoria === h.id_padre))
-        .forEach(h => tbody.appendChild(crearFila(h, true)));
+    lista.forEach(m => tbody.appendChild(crearFila(m)));
 }
 
-function crearFila(cat, esHijo) {
+function crearFila(m) {
     const tr = document.createElement("tr");
-    // id guardado en dataset — no visible en tabla
-    tr.dataset.id = cat.id_categoria;
+    tr.dataset.id = m.id_marca;
 
-    const estadoHtml = cat.estado === "activo"
+    const estadoHtml = m.estado === "activo"
         ? `<span class="badge badge-activo">Activo</span>`
         : `<span class="badge badge-inactivo">Inactivo</span>`;
 
-    const nombreHtml = esHijo
-        ? `<span class="arbol-hijo"><span class="arbol-icono">└</span>${cat.nombre}</span>`
-        : `<span class="arbol-padre">${cat.nombre}</span>`;
+    const totalProductos = parseInt(m.total_productos) || 0;
+    const productoBadge = totalProductos === 0
+        ? `<span class="badge badge-sinprod">Sin productos</span>`
+        : `<span class="badge badge-conprod">${totalProductos} producto${totalProductos !== 1 ? "s" : ""}</span>`;
 
     const acciones = puedeGestionar
-        ? `<button class="btn-accion btn-editar"   onclick="abrirModalEditar(${cat.id_categoria})">Editar</button>
-           <button class="btn-accion btn-eliminar" onclick="abrirModalEliminar(${cat.id_categoria}, '${escapar(cat.nombre)}')">Eliminar</button>`
+        ? `<button class="btn-accion btn-editar"   onclick="abrirModalEditar(${m.id_marca})">Editar</button>
+           <button class="btn-accion btn-eliminar" onclick="abrirModalEliminar(${m.id_marca}, '${escapar(m.nombre)}')">Eliminar</button>`
         : `<button class="btn-accion btn-editar"   disabled title="Sin permiso">Editar</button>
            <button class="btn-accion btn-eliminar" disabled title="Sin permiso">Eliminar</button>`;
 
-    // Sin columna de ID visible
     tr.innerHTML = `
-    <td class="td-nombre ${esHijo ? "td-hijo" : "td-padre"}">${nombreHtml}</td>
-    <td>${cat.nombre_padre || '<span class="td-vacio">—</span>'}</td>
-    <td class="td-desc">${cat.descripcion || '<span class="td-vacio">—</span>'}</td>
-    <td>${formatFecha(cat.fecha_creacion)}</td>
-    <td>${estadoHtml}</td>
-    <td class="td-acciones">${acciones}</td>
+        <td class="td-nombre td-padre">${m.nombre}</td>
+        <td class="td-desc">${m.descripcion || '<span class="td-vacio">—</span>'}</td>
+        <td>${m.pais_origen || '<span class="td-vacio">—</span>'}</td>
+        <td>${productoBadge}</td>
+        <td>${estadoHtml}</td>
+        <td>${formatFecha(m.fecha_creacion)}</td>
+        <td class="td-acciones">${acciones}</td>
     `;
     return tr;
 }
 
-// ─── Filtro — solo muestra si hay algo seleccionado o escrito ────────────────
-// ─── Filtro — solo muestra si hay algo seleccionado o escrito ────────────────
-function filtrarCategorias() {
-    const texto  = (document.getElementById("buscarCategoria")?.value || "").trim();
+// ─── Filtro 100% en memoria ──────────────────────────────────────────────────
+function filtrarMarcas() {
+    const texto  = (document.getElementById("buscarMarca")?.value || "").trim();
     const estado = document.getElementById("filtroEstado")?.value || "";
-    const tipoId = document.getElementById("filtroTipo")?.value   || "";
+    const pais   = document.getElementById("filtroPais")?.value   || "";
     const desde  = document.getElementById("filtroDesde")?.value  || "";
     const hasta  = document.getElementById("filtroHasta")?.value  || "";
 
-    // Sin filtros activos — mensaje inicial
-    if (!texto && !estado && !tipoId && !desde && !hasta) {
-        document.getElementById("cuerpoCategorias").innerHTML = `
-            <tr>
-                <td colspan="6" class="tabla-vacia">
-                    <span class="vacia-icono">🔍</span>
-                    <span>Selecciona un filtro para ver las categorías</span>
-                </td>
-            </tr>`;
+    if (!texto && !estado && !pais && !desde && !hasta) {
+        mostrarMensajeInicial();
         actualizarContador(0);
         return;
     }
 
-    const filtradas = db.categorias.filter(c => {
-        const okTexto  = !texto  || c.nombre.toLowerCase().includes(texto.toLowerCase())
-                                || (c.descripcion || "").toLowerCase().includes(texto.toLowerCase());
-        const okEstado = !estado || c.estado === estado;
-        const okTipo   = !tipoId || c.id_categoria === parseInt(tipoId) || c.id_padre === parseInt(tipoId);
+    const filtradas = db.marcas.filter(m => {
+        const okTexto  = !texto  || m.nombre.toLowerCase().includes(texto.toLowerCase())
+                                 || (m.descripcion  || "").toLowerCase().includes(texto.toLowerCase())
+                                 || (m.pais_origen  || "").toLowerCase().includes(texto.toLowerCase());
+        const okEstado = !estado || m.estado === estado;
+        const okPais   = !pais   || m.pais_origen === pais;
 
-        // Filtro por fecha de creación
         let okFecha = true;
-        if (c.fecha_creacion) {
-            const fecha = new Date(c.fecha_creacion).toISOString().split("T")[0];
+        if (m.fecha_creacion) {
+            const fecha = new Date(m.fecha_creacion).toISOString().split("T")[0];
             if (desde && fecha < desde) okFecha = false;
             if (hasta && fecha > hasta) okFecha = false;
         }
 
-        return okTexto && okEstado && okTipo && okFecha;
+        return okTexto && okEstado && okPais && okFecha;
     });
 
     renderTabla(filtradas);
     actualizarContador(filtradas.length);
 }
 
-// ─── Select padre en modal ───────────────────────────────────────────────────
-function llenarSelectPadre(excluirId = null) {
-    const select = document.getElementById("inPadre");
-    select.innerHTML = `<option value="">— Categoría principal (raíz) —</option>`;
-    db.categorias
-        .filter(c => !c.id_padre && c.id_categoria !== excluirId)
-        .forEach(c => {
-            const opt = document.createElement("option");
-            opt.value       = c.id_categoria;
-            opt.textContent = c.nombre;
-            select.appendChild(opt);
-        });
-}
-
 // ─── Modal Crear ─────────────────────────────────────────────────────────────
 function abrirModalCrear() {
-    if (!puedeGestionar) { mostrarToast("Sin permiso para crear categorías", "error"); return; }
+    if (!puedeGestionar) { mostrarToast("Sin permiso para crear marcas", "error"); return; }
     db.editandoId = null;
-    document.getElementById("tituloModal").textContent = "Nueva Categoría";
+    document.getElementById("tituloModal").textContent = "Nueva Marca";
     limpiarFormulario();
-    llenarSelectPadre();
-    abrirModal("modalCategoria");
+    abrirModal("modalMarca");
 }
 
 // ─── Modal Editar ────────────────────────────────────────────────────────────
 function abrirModalEditar(id) {
-    const cat = db.categorias.find(c => c.id_categoria === id);
-    if (!cat) return;
+    const m = db.marcas.find(x => x.id_marca === id);
+    if (!m) return;
 
     db.editandoId = id;
-    document.getElementById("tituloModal").textContent  = "Editar Categoría";
-    document.getElementById("inNombre").value           = cat.nombre;
-    document.getElementById("inDescripcion").value      = cat.descripcion || "";
-    document.getElementById("inEstado").value           = cat.estado;
-
-    llenarSelectPadre(id);
-    document.getElementById("inPadre").value = cat.id_padre || "";
-
-    abrirModal("modalCategoria");
+    document.getElementById("tituloModal").textContent = "Editar Marca";
+    document.getElementById("inNombre").value      = m.nombre;
+    document.getElementById("inDescripcion").value = m.descripcion  || "";
+    document.getElementById("inPais").value        = m.pais_origen  || "";
+    document.getElementById("inEstado").value      = m.estado;
+    limpiarErrorModal();
+    abrirModal("modalMarca");
 }
 
-function cerrarModalForm() { cerrarModal("modalCategoria"); }
+function cerrarModalForm() { cerrarModal("modalMarca"); }
 
 // ─── Guardar ─────────────────────────────────────────────────────────────────
-async function guardarCategoria() {
+async function guardarMarca() {
     const nombre = document.getElementById("inNombre").value.trim();
     if (!nombre) { mostrarErrorModal("El nombre es obligatorio."); return; }
 
@@ -211,14 +178,14 @@ async function guardarCategoria() {
 
     const body = {
         nombre,
-        descripcion: document.getElementById("inDescripcion").value.trim() || null,
-        id_padre:    document.getElementById("inPadre").value || null,
-        estado:      document.getElementById("inEstado").value,
+        descripcion:  document.getElementById("inDescripcion").value.trim() || null,
+        pais_origen:  document.getElementById("inPais").value.trim()        || null,
+        estado:       document.getElementById("inEstado").value,
     };
 
     try {
         const esEdicion = db.editandoId !== null;
-        const url    = esEdicion ? `${API}/categorias/${db.editandoId}` : `${API}/categorias`;
+        const url    = esEdicion ? `${API}/marcas/${db.editandoId}` : `${API}/marcas`;
         const method = esEdicion ? "PUT" : "POST";
 
         const res  = await fetch(url, {
@@ -231,29 +198,20 @@ async function guardarCategoria() {
         if (!res.ok) { mostrarErrorModal(data.message || "Error al guardar"); return; }
 
         if (esEdicion) {
-            const idx = db.categorias.findIndex(c => c.id_categoria === db.editandoId);
+            const idx = db.marcas.findIndex(x => x.id_marca === db.editandoId);
             if (idx !== -1) {
-                const padre = db.categorias.find(c => c.id_categoria == body.id_padre);
-                db.categorias[idx] = {
-                    ...db.categorias[idx],
-                    nombre:       body.nombre,
-                    descripcion:  body.descripcion,
-                    id_padre:     body.id_padre ? parseInt(body.id_padre) : null,
-                    nombre_padre: padre?.nombre || null,
-                    estado:       body.estado,
-                };
+                db.marcas[idx] = { ...db.marcas[idx], ...body };
             }
         } else {
-            const nueva = data.categoria;
-            const padre = db.categorias.find(c => c.id_categoria == body.id_padre);
-            nueva.nombre_padre = padre?.nombre || null;
-            db.categorias.push(nueva);
-            llenarFiltroTipo();
+            const nueva = data.marca;
+            nueva.total_productos = 0;
+            db.marcas.push(nueva);
+            llenarFiltroPais();
         }
 
-        cerrarModal("modalCategoria");
-        filtrarCategorias(); // re-aplica el filtro activo
-        mostrarToast(esEdicion ? "Categoría actualizada" : "Categoría creada", "success");
+        cerrarModal("modalMarca");
+        filtrarMarcas();
+        mostrarToast(esEdicion ? "Marca actualizada" : "Marca creada", "success");
 
     } catch (err) {
         mostrarErrorModal("Error de conexión con el servidor.");
@@ -278,7 +236,7 @@ async function confirmarEliminar() {
     document.getElementById("btnConfirmarEliminar").textContent = "Eliminando…";
 
     try {
-        const res  = await fetch(`${API}/categorias/${db.eliminandoId}`, { method: "DELETE" });
+        const res  = await fetch(`${API}/marcas/${db.eliminandoId}`, { method: "DELETE" });
         const data = await res.json();
 
         if (!res.ok) {
@@ -287,12 +245,11 @@ async function confirmarEliminar() {
             return;
         }
 
-        db.categorias = db.categorias.filter(c => c.id_categoria !== db.eliminandoId);
-        llenarFiltroTipo();
-
+        db.marcas = db.marcas.filter(x => x.id_marca !== db.eliminandoId);
+        llenarFiltroPais();
         cerrarModal("modalEliminar");
-        filtrarCategorias(); // re-aplica el filtro activo
-        mostrarToast("Categoría eliminada", "success");
+        filtrarMarcas();
+        mostrarToast("Marca eliminada", "success");
 
     } catch (err) {
         mostrarToast("Error de conexión", "error");
@@ -309,6 +266,7 @@ function cerrarModal(id) { const el = document.getElementById(id); if (el) el.st
 function limpiarFormulario() {
     document.getElementById("inNombre").value      = "";
     document.getElementById("inDescripcion").value = "";
+    document.getElementById("inPais").value        = "";
     document.getElementById("inEstado").value      = "activo";
     limpiarErrorModal();
 }
@@ -324,7 +282,7 @@ function limpiarErrorModal() {
 }
 
 function actualizarContador(n) {
-    const el = document.getElementById("totalCategorias");
+    const el = document.getElementById("totalMarcas");
     if (el) el.textContent = n > 0 ? `${n} registro${n !== 1 ? "s" : ""}` : "";
 }
 
@@ -376,8 +334,7 @@ function formatFecha(iso) {
     });
 }
 
-
 document.addEventListener("click", e => {
-    if (e.target.id === "modalCategoria") cerrarModal("modalCategoria");
-    if (e.target.id === "modalEliminar")  cerrarModal("modalEliminar");
+    if (e.target.id === "modalMarca")    cerrarModal("modalMarca");
+    if (e.target.id === "modalEliminar") cerrarModal("modalEliminar");
 });

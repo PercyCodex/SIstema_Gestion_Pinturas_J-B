@@ -1,0 +1,424 @@
+/* ============================================================
+   clientes.css — complementa usuarios.css
+   Solo estilos propios de la página de Clientes
+   ============================================================ */
+
+/* ── Encabezado con badge ───────────────────────────────── */
+.encabezado-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.encabezado-titulo h2 {
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.badge-total {
+    background: rgba(255, 255, 255, 0.18);
+    color: #e0e8ff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+    letter-spacing: 0.4px;
+}
+
+/* ── Toolbar ────────────────────────────────────────────── */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.toolbar input[type="text"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    font-size: 14px;
+    background: rgba(255,255,255,0.92);
+    outline: none;
+    transition: 0.2s;
+}
+
+.toolbar input[type="text"]:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.25);
+    background: #fff;
+}
+
+.toolbar select {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 14px;
+    background: rgba(255,255,255,0.92);
+    cursor: pointer;
+    outline: none;
+    transition: 0.2s;
+}
+
+.toolbar select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.25);
+}
+
+/* ── Tabla wrapper con scroll horizontal ────────────────── */
+.tabla-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+}
+
+#tablaCliente {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    min-width: 900px;
+}
+
+#tablaCliente thead {
+    background: linear-gradient(90deg, #1e2f5e, #3d5168);
+    color: #f0f4ff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#tablaCliente th {
+    padding: 14px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#tablaCliente td {
+    padding: 11px 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    color: #2c3e50;
+    border-bottom: 1px solid #e8edf5;
+    vertical-align: middle;
+}
+
+#tablaCliente tbody tr:hover {
+    background: #f0f4ff;
+    transition: background 0.15s;
+}
+
+/* Celda de nombre — alineada a la izquierda */
+#tablaCliente td.td-nombre {
+    text-align: left;
+    font-weight: 600;
+    color: #1a2744;
+}
+
+/* Celda tabla vacía */
+.tabla-vacia {
+    padding: 40px !important;
+    color: #999;
+    font-style: italic;
+    font-size: 15px !important;
+}
+
+/* ── Badges de estado ───────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.badge-activo   { background: #d4f5e2; color: #1a7a45; }
+.badge-inactivo { background: #fde8e8; color: #8b1a1a; }
+
+/* ── Badges de tipo ─────────────────────────────────────── */
+.tipo-natural  { background: #e3eeff; color: #1e40af; font-size: 12px; padding: 3px 9px; border-radius: 12px; font-weight: 600; }
+.tipo-empresa  { background: #fef3c7; color: #92400e; font-size: 12px; padding: 3px 9px; border-radius: 12px; font-weight: 600; }
+
+/* ── Acciones en tabla ──────────────────────────────────── */
+.acciones {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+/* ── Modal general ──────────────────────────────────────── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 15, 40, 0.65);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    animation: fadeIn 0.15s ease;
+}
+
+.modal-overlay.activo {
+    display: flex;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal-caja {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    animation: slideUp 0.2s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-grande { width: 620px; max-width: 95vw; }
+.modal-chico  { width: 360px; max-width: 95vw; text-align: center; }
+
+/* Modal header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e8edf5;
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a2744;
+}
+
+.modal-cerrar {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #999;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: 0.2s;
+    line-height: 1;
+}
+.modal-cerrar:hover { background: #f0f4ff; color: #333; }
+
+/* Modal grid de campos */
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+}
+
+.campo { display: flex; flex-direction: column; gap: 4px; }
+.campo-full { grid-column: 1 / -1; }
+
+.campo label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.campo label .req { color: #e53e3e; }
+
+.campo input,
+.campo select,
+.campo textarea {
+    padding: 9px 12px;
+    border: 1px solid #d1d9e8;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: 0.2s;
+    background: #f8faff;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.18);
+    background: #fff;
+}
+
+.campo textarea { resize: vertical; }
+
+/* Error en modal */
+.modal-error {
+    color: #c0392b;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 18px;
+    text-align: center;
+}
+
+/* Botones modal */
+.modal-botones {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 6px;
+    border-top: 1px solid #e8edf5;
+    padding-top: 16px;
+}
+
+.btn-cancelar {
+    padding: 9px 22px;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    color: #555;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-cancelar:hover { background: #f5f5f5; border-color: #aaa; }
+
+.btn-guardar {
+    padding: 9px 22px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+}
+.btn-guardar:hover { background: linear-gradient(135deg, #1d4ed8, #1e3a8a); }
+
+.btn-eliminar {
+    padding: 9px 22px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-eliminar:hover { background: linear-gradient(135deg, #b91c1c, #7f1d1d); }
+
+/* Modal warn icon */
+.modal-icon-warn {
+    font-size: 42px;
+    text-align: center;
+    margin-bottom: -6px;
+}
+
+/* Modal chico textos */
+.modal-chico h3 { color: #1a2744; font-size: 17px; margin-bottom: 6px; }
+.modal-chico p  { color: #555; font-size: 14px; line-height: 1.5; }
+
+/* ── Modal Ver detalle ──────────────────────────────────── */
+.ver-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.ver-campo { display: flex; flex-direction: column; gap: 3px; }
+.ver-campo-full { grid-column: 1 / -1; }
+
+.ver-campo .ver-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #8896b3;
+}
+
+.ver-campo .ver-valor {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1a2744;
+    background: #f4f7ff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e0e8ff;
+    word-break: break-word;
+}
+
+.ver-valor.sin-dato { color: #aaa; font-style: italic; font-weight: 400; }
+
+/* ── Botones de acción en tabla ─────────────────────────── */
+.btn-ver {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    padding: 7px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+.btn-ver:hover { background: #0284c7; }
+
+.btn-editar {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 7px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+.btn-editar:hover { background: #d97706; }
+
+.btn-eliminar-tabla {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 7px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+.btn-eliminar-tabla:hover { background: #dc2626; }
+
+/* ── Nav link activo ────────────────────────────────────── */
+#navegador a.nav-activo {
+    background: #3c3850ff;
+    font-weight: 600;
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .modal-grid { grid-template-columns: 1fr; }
+    .ver-grid   { grid-template-columns: 1fr; }
+    .modal-grande { padding: 20px 16px; }
+}

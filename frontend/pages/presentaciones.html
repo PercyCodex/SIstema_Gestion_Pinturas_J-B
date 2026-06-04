@@ -3,58 +3,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presentaciones - Sistema</title>
-    <link rel="stylesheet" href="../styles/usuarios.css">
-    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
+    <title>Presentaciones — Sistema</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/presentaciones.css">
+    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
 </head>
 <body>
-    <main>
-        <aside id="sidebar">
+<main>
 
-
-            <div id="sidebar-header">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        height="24px"
-                        viewBox="0 -960 960 960"
-                        width="40px"
-                        fill="black">
-                        <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z"/>
-                    </svg>
-                <h1 id="bienvenida"></h1>
-                
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════ -->
+    <aside id="sidebar">
+        <div id="sidebar-header">
+            <div id="usuario">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="40px" fill="white">
+                    <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z"/>
+                </svg>
             </div>
-            
-                <nav id="navegador">
-                    <ul>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="usuarios.html">Usuarios</a></li>
-                        <li><a href="perfiles.html">Perfiles</a></li>
-                        <li><a href="categoria.html">Categoria</a></li>
-                        <li><a href="inventario.html">Inventario</a></li>
-                        <li><a href="productos.html">Productos</a></li>
-                        <li><a href="ventas.html">Ventas</a></li>
-                        <li><a href="clientes.html">Clientes</a></li>
-                        <li><a href="presentaciones.html">Presentaciones</a></li>
-                        <li><a href="proveedores.html">Proveedores</a></li>
-                        <li><a href="gestion_tienda.html">Gestión Tienda</a></li>
-                        <li><a href="cotizaciones.html">Cotizaciones</a></li>
-                        <li><a href="configuraciones.html">Configuraciones</a></li>
-                    </ul>
-                </nav>
-        </aside>
-        <section id="dashboard-content">
-            <h2>Presentaciones</h2>
-            <p>Vista previa de todas las presentaciones</p>
+            <h1 id="bienvenida"></h1>
+        </div>
+        <nav id="navegador">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="usuarios.html">Usuarios</a></li>
+                <li><a href="perfiles.html">Perfiles</a></li>
+                <li><a href="categoria.html">Categorías</a></li>
+                <li><a href="marcas.html">Marcas</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="ventas.html">Ventas</a></li>
+                <li><a href="clientes.html">Clientes</a></li>
+                <li><a href="presentaciones.html">Presentaciones</a></li>
+                <li><a href="proveedores.html">Proveedores</a></li>
+                <li><a href="gestion_tienda.html">Gestión Tienda</a></li>
+                <li><a href="cotizaciones.html">Cotizaciones</a></li>
+                <li><a href="configuraciones.html">Configuraciones</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-        </section>
+    <!-- ══ CONTENIDO ════════════════════════════════════════════ -->
+    <section id="dashboard-content">
 
-    </main>
+        <!-- Encabezado -->
+        <div class="encabezado">
+            <div class="encabezado-izq">
+                <h2>Presentaciones</h2>
+                <span id="totalPresentaciones" class="badge-total"></span>
+            </div>
+            <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nueva Presentación</button>
+        </div>
 
+        <div id="errorGeneral"></div>
 
+        <div id="spinnerCarga">
+            <div class="spinner-circulo"></div>
+            <span>Cargando presentaciones…</span>
+        </div>
 
-</body>
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <input type="text" id="buscarPresentacion"
+                   placeholder="Buscar por nombre o descripción…"
+                   oninput="filtrarPresentaciones()" autocomplete="off">
+
+            <select id="filtroUnidad" onchange="filtrarPresentaciones()">
+                <option value="">Todas las unidades</option>
+                <option value="litro">Litro</option>
+                <option value="galon">Galón</option>
+                <option value="kg">Kilogramo</option>
+                <option value="ml">Mililitro</option>
+                <option value="unidad">Unidad</option>
+            </select>
+
+            <select id="filtroEstado" onchange="filtrarPresentaciones()">
+                <option value="">Todos los estados</option>
+                <option value="activo">Activo</option>
+                <option value="inactivo">Inactivo</option>
+            </select>
+        </div>
+
+        <!-- Tabla -->
+        <div class="tabla-wrapper">
+            <table id="tablaPresentaciones">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;padding-left:20px">Cantidad / Unidad</th>
+                        <th>Descripción</th>
+                        <th>Productos</th>
+                        <th>Orden</th>
+                        <th>Visible Web</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoPresentaciones"></tbody>
+            </table>
+        </div>
+
+        <!-- ══ MODAL CREAR / EDITAR ══════════════════════════════ -->
+        <div id="modalPresentacion" class="modal-overlay">
+            <div class="modal-caja">
+                <div class="modal-header">
+                    <h3 id="tituloModal">Nueva Presentación</h3>
+                    <button class="modal-cerrar" onclick="cerrarModalForm()" title="Cerrar">✕</button>
+                </div>
+
+                <!-- Fracciones rápidas -->
+                <div>
+                    <p class="fichas-label">Fracciones rápidas</p>
+                    <div id="fichasRapidas"></div>
+                </div>
+
+                <!-- Cantidad + Unidad lado a lado -->
+                <div class="campo-row">
+                    <div class="campo">
+                        <label for="inCantidad">Cantidad <span class="req">*</span></label>
+                        <input id="inCantidad" type="number" min="0.001" step="0.001"
+                               placeholder="Ej: 0.25 · 1 · 4"
+                               oninput="actualizarPreview()">
+                    </div>
+                    <div class="campo">
+                        <label for="inUnidad">Unidad de medida <span class="req">*</span></label>
+                        <select id="inUnidad" onchange="actualizarPreview()">
+                            <!-- llenado por JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Preview del nombre que se generará -->
+                <div id="previewNombre" class="preview-nombre">Ingresa cantidad y unidad</div>
+
+                <div class="campo">
+                    <label for="inDescripcion">Descripción</label>
+                    <input id="inDescripcion" type="text" placeholder="Ej: Cuarto de galón para retoques" maxlength="255">
+                </div>
+
+                <div class="campo-row">
+                    <div class="campo">
+                        <label for="inOrden">Orden de display</label>
+                        <input id="inOrden" type="number" min="0" step="1" placeholder="Ej: 1">
+                    </div>
+                    <div class="campo">
+                        <label for="inEstado">Estado</label>
+                        <select id="inEstado">
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="campo campo-check">
+                    <label class="check-label">
+                        <input id="inVisibleWeb" type="checkbox" checked>
+                        <span>Visible en la web de la tienda</span>
+                    </label>
+                </div>
+
+                <p id="modalError" class="modal-error"></p>
+
+                <div class="modal-botones">
+                    <button class="btn-cancelar" onclick="cerrarModalForm()">Cancelar</button>
+                    <button id="btnGuardar" class="btn-guardar" onclick="guardarPresentacion()">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ MODAL ELIMINAR ════════════════════════════════════ -->
+        <div id="modalEliminar" class="modal-overlay">
+            <div class="modal-caja modal-chico">
+                <div class="modal-icon-warn">⚠️</div>
+                <h3>¿Eliminar presentación?</h3>
+                <p>La presentación <strong><span id="nombreEliminar"></span></strong> será
+                    removida permanentemente. Esta acción no se puede deshacer.</p>
+                <div class="modal-botones" style="justify-content:center;">
+                    <button class="btn-cancelar" onclick="cerrarModalEliminar()">Cancelar</button>
+                    <button id="btnConfirmarEliminar" class="btn-eliminar-confirm"
+                            onclick="confirmarEliminar()">Sí, eliminar</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
 <script src="../scripts/script.js"></script>
+<script src="../scripts/presentaciones.js"></script>
+</body>
 </html>
