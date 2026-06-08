@@ -90,10 +90,10 @@
             <table id="tablaPresentaciones">
                 <thead>
                     <tr>
+                        <th>Imagen</th>
                         <th style="text-align:left;padding-left:20px">Cantidad / Unidad</th>
                         <th>Descripción</th>
                         <th>Productos</th>
-                        <th>Orden</th>
                         <th>Visible Web</th>
                         <th>Estado</th>
                         <th>Acciones</th>
@@ -141,17 +141,20 @@
                     <input id="inDescripcion" type="text" placeholder="Ej: Cuarto de galón para retoques" maxlength="255">
                 </div>
 
-                <div class="campo-row">
-                    <div class="campo">
-                        <label for="inOrden">Orden de display</label>
-                        <input id="inOrden" type="number" min="0" step="1" placeholder="Ej: 1">
-                    </div>
-                    <div class="campo">
-                        <label for="inEstado">Estado</label>
-                        <select id="inEstado">
-                            <option value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
-                        </select>
+                <div class="campo">
+                    <label for="inEstado">Estado</label>
+                    <select id="inEstado">
+                        <option value="activo">Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                    </select>
+                </div>
+
+                <div class="campo campo-imagen">
+                    <label for="inImagen">Imagen de presentación</label>
+                    <div class="imagen-upload-area" id="areaImagen">
+                        <input type="file" id="inImagen" accept="image/*" onchange="vistaPreviaImagen(event)">
+                        <p class="imagen-upload-hint">Selecciona una imagen (opcional — listo para cuando conectes el guardado)</p>
+                        <div id="previewImagen" class="imagen-preview" hidden></div>
                     </div>
                 </div>
 
@@ -190,6 +193,7 @@
 </main>
 
 <script src="../scripts/script.js"></script>
+<script src="../scripts/sidebar.js"></script>
 <script src="../scripts/presentaciones.js"></script>
 </body>
 </html>

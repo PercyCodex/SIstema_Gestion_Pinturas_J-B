@@ -1,0 +1,432 @@
+/* Ventas — estilo claro tipo POS (referencia usuario) */
+
+.ventas-panel {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.ventas-encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.ventas-encabezado h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+}
+
+.ventas-acciones-top {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-ayuda {
+    background: #facc15;
+    color: #1a1a1a;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-nueva-venta {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ventas-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: center;
+}
+
+.ventas-filtros input,
+.ventas-filtros select {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    min-width: 0;
+}
+
+.ventas-filtros .filtro-buscar {
+    flex: 1 1 220px;
+    max-width: 100%;
+}
+
+#tablaVentas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+#tablaVentas thead {
+    background: #051c5c;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+#tablaVentas th {
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #f5f5f5;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#tablaVentas td {
+    padding: 11px 8px;
+    text-align: center;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+#tablaVentas tbody tr:hover {
+    background: #f8fafc;
+}
+
+.vent-total {
+    font-weight: 800;
+    color: #15803d;
+}
+
+.vent-badge-completada {
+    background: #dcfce7;
+    color: #166534;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.vent-badge-anulada {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.vent-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+}
+
+.vent-btn-icon {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.12s, opacity 0.12s;
+}
+
+.vent-btn-icon:hover { transform: translateY(-1px); }
+.vent-btn-editar { background: #fbbf24; color: #1a1a1a; }
+.vent-btn-ver    { background: #3b82f6; color: #fff; }
+.vent-btn-print  { background: #94a3b8; color: #fff; }
+.vent-btn-anular { background: #ef4444; color: #fff; }
+.vent-btn-hist   { background: #8b5cf6; color: #fff; }
+
+/* ── Modal nueva venta ─────────────────────────────────────── */
+.vent-modal-xl {
+    width: min(1100px, 96vw);
+    max-height: 92vh;
+    background: #fff;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.vent-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.vent-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vent-modal-body {
+    display: grid;
+    grid-template-columns: 1fr min(340px, 36%);
+    gap: 0;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.vent-modal-col-izq {
+    padding: 18px 22px;
+    overflow-y: auto;
+    border-right: 1px solid #e2e8f0;
+}
+
+.vent-modal-col-der {
+    padding: 18px 20px;
+    background: #f8fafc;
+    overflow-y: auto;
+}
+
+.vent-seccion {
+    margin-bottom: 18px;
+}
+
+.vent-seccion-titulo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.vent-cliente-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.vent-cliente-row input {
+    flex: 1;
+    min-width: 180px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+
+.btn-buscar-cli {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-sin-cliente {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.vent-cliente-seleccionado {
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: #ecfdf5;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.vent-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.vent-grid-2 label,
+.vent-pago-extra label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.vent-grid-2 select,
+.vent-grid-2 input,
+.vent-pago-extra input,
+.vent-pago-extra textarea {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.vent-vendedor-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 12px;
+    background: #dbeafe;
+    color: #1e40af;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.vent-prod-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-ver-catalogo {
+    background: #16a34a;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.vent-tabla-carrito {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.vent-tabla-carrito th {
+    background: #f1f5f9;
+    padding: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #64748b;
+}
+
+.vent-tabla-carrito td {
+    padding: 8px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.vent-resumen-linea {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.vent-resumen-total {
+    font-size: 26px;
+    font-weight: 800;
+    color: #000000;
+    margin: 12px 0;
+}
+
+.btn-confirmar-venta {
+    width: 100%;
+    background: #0bac14;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+.vent-pago-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.vent-pago-tabs button {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.vent-pago-tabs button.activo {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+}
+
+.vent-pago-preview {
+    max-width: 100%;
+    max-height: 80px;
+    margin-top: 8px;
+    border-radius: 8px;
+}
+
+/* Catálogo modal */
+.vent-catalogo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+    max-height: 55vh;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.vent-catalogo-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.15s, border-color 0.15s;
+}
+
+.vent-catalogo-card:hover {
+    border-color: #2563eb;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.vent-catalogo-card.agotado {
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+@media (max-width: 900px) {
+    .vent-modal-body { grid-template-columns: 1fr; }
+    .vent-modal-col-izq { border-right: none; border-bottom: 1px solid #e2e8f0; }
+}

@@ -68,7 +68,7 @@ async function iniciarPagina() {
         if (resMarcas.ok)      { state.marcasData = await resMarcas.json(); llenarFiltroMarcas(); }
         if (resProveedores.ok) { state.proveedoresData = await resProveedores.json(); llenarSelectProveedores(); }
 
-        await filtrarStock();
+        mostrarMensajeInicialStock();
     } catch (err) {
         console.error("Error al iniciar inventario:", err);
         mostrarToast("Error al cargar inventario", "error");
@@ -81,8 +81,6 @@ function actualizarCards(r) {
     setText("statCritico", r.sin_stock       ?? "0");
     setText("statBajo",    r.stock_bajo      ?? "0");
     setText("statOk",      r.stock_ok        ?? "0");
-    const valor = parseFloat(r.valor_venta || r.valor_total_venta || 0);
-    setText("statValor", valor > 0 ? `S/ ${formatNum(valor)}` : "S/ 0");
 }
 
 // ─── Filtros ──────────────────────────────────────────────────
@@ -119,11 +117,29 @@ function debounceSearch() {
 }
 
 // ─── Filtrar stock ────────────────────────────────────────────
+function mostrarMensajeInicialStock() {
+    const tbody = document.getElementById("cuerpoStock");
+    if (!tbody) return;
+    tbody.innerHTML = `
+        <tr><td colspan="8" class="inv-vacia">
+            <div style="font-size:28px;margin-bottom:8px">🔍</div>
+            <strong>Usa los filtros para consultar el inventario</strong><br>
+            <span style="font-size:13px;color:#94a3b8">Así evitamos cargar todo el stock de una vez</span>
+        </td></tr>`;
+    ocultarPaginacion();
+}
+
 async function filtrarStock() {
     const buscar   = (document.getElementById("buscarStock")?.value || "").trim();
     const marca    = document.getElementById("filtroMarcaStock")?.value || "";
     const semaf    = document.getElementById("filtroSemaforo")?.value  || "";
     const tipoItem = document.getElementById("filtroTipoItem")?.value  || "";
+
+    if (!buscar && !marca && !semaf && !tipoItem) {
+        state.stockData = [];
+        mostrarMensajeInicialStock();
+        return;
+    }
 
     mostrarSpinner("spinnerStock", true);
     try {
@@ -212,16 +228,13 @@ function renderStock(lista) {
         const idRef   = esHerramienta ? p.id_herramienta : p.id_pres_prod;
         const idProd  = esHerramienta ? null : p.id_producto;
 
-        const semCls = { critico: "stock-critico", bajo: "stock-bajo", ok: "stock-ok" }[p.semaforo] || "stock-ok";
         const semBadge = p.semaforo === "critico"
-            ? `<span class="inv-estado-badge estado-agotado">AGOTADO</span>`
+            ? `<span class="inv-estado-texto estado-agotado">Agotado</span>`
             : p.semaforo === "bajo"
-            ? `<span class="inv-estado-badge estado-bajo">BAJO</span>`
-            : `<span class="inv-estado-badge estado-ok">OK</span>`;
+            ? `<span class="inv-estado-texto estado-bajo">Bajo</span>`
+            : `<span class="inv-estado-texto estado-ok">Normal</span>`;
 
-        const tipoBadge = esHerramienta
-            ? `<span class="td-tipo-badge td-tipo-herramienta">🔧 Herramienta</span>`
-            : `<span class="td-tipo-badge td-tipo-pintura">🎨 Pintura</span>`;
+        const tipoLabel = esHerramienta ? "Herramienta" : "Pintura";
 
         const presentacion = p.presentacion || "—";
         const marca = p.marca || "";
@@ -229,52 +242,38 @@ function renderStock(lista) {
         const precioCompra = `S/ ${parseFloat(p.precio_costo || 0).toFixed(2)}`;
         const precioVenta  = `S/ ${parseFloat(p.precio_venta  || 0).toFixed(2)}`;
 
-        const editHandler = esHerramienta
-            ? `abrirEditorPreciosHerramienta(${idRef}, '${escapar(p.producto)}', ${parseFloat(p.precio_costo||0)}, ${parseFloat(p.precio_venta||0)})`
-            : `abrirEditorPrecios(${idRef}, ${idProd}, '${escapar(p.producto)}', ${parseFloat(p.precio_costo||0)}, ${parseFloat(p.precio_venta||0)}, '${escapar(presentacion)}')`;
-
         const movHandler = esHerramienta
             ? `abrirMov(null, ${idRef}, '${escapar(p.producto)}', ${p.stock_actual})`
             : `abrirMov(${idRef}, null, '${escapar(p.producto)} — ${escapar(presentacion)}', ${p.stock_actual})`;
 
         // Botón verde solo para pinturas (tienen ventas)
         const btnVentas = !esHerramienta
-            ? `<button class="inv-btn-acc inv-btn-ventas" title="Historial de ventas" onclick="verHistorialVentas(${idRef}, '${escapar(p.producto)}', '${escapar(presentacion)}')">📈</button>`
+            ? `<button type="button" class="inv-btn-acc inv-btn-ventas" title="Historial de ventas" onclick="verHistorialVentas(${idRef}, '${escapar(p.producto)}', '${escapar(presentacion)}')">📈</button>`
             : "";
 
         tr.innerHTML = `
             <td>
                 <div class="td-producto-wrap">
-                    ${tipoBadge}
+                    <span class="td-tipo-linea">${tipoLabel}</span>
                     <span class="td-prod-nombre">${p.producto || "—"}</span>
                     <span class="td-prod-sku">${p.sku || ""}</span>
                 </div>
             </td>
             <td>
                 <span class="td-pres">${presentacion}</span>
-                ${marca ? `<br><span style="font-size:11px;color:#94a3b8">${marca}</span>` : ""}
+                ${marca ? `<br><span class="td-marca-sub">${marca}</span>` : ""}
             </td>
-            <td class="td-center ${semCls}">
+            <td class="td-center">
                 <span class="td-stock-num">${p.stock_actual}</span>
             </td>
-            <td class="td-center" style="color:#94a3b8;font-weight:600">${p.stock_minimo}</td>
-            <td class="td-center">
-                <div class="td-precio-wrap">
-                    ${precioCompra}
-                    <button class="inv-btn-edit-precio" title="Editar precios" onclick="${editHandler}">✏️</button>
-                </div>
-            </td>
-            <td class="td-center">
-                <div class="td-precio-wrap">
-                    ${precioVenta}
-                    <button class="inv-btn-edit-precio" title="Editar precios" onclick="${editHandler}">✏️</button>
-                </div>
-            </td>
+            <td class="td-center td-stock-min">${p.stock_minimo}</td>
+            <td class="td-center">${precioCompra}</td>
+            <td class="td-center">${precioVenta}</td>
             <td class="td-center">${semBadge}</td>
             <td class="td-center">
                 <div class="inv-acciones">
-                    <button class="inv-btn-acc inv-btn-mov" title="Registrar movimiento" onclick="${movHandler}">⇄</button>
-                    <button class="inv-btn-acc inv-btn-kdx" title="Kardex / historial" onclick="verKardex(${idRef || 'null'}, '${escapar(p.producto)}', '${escapar(presentacion)}', ${esHerramienta})">🕐</button>
+                    <button type="button" class="inv-btn-acc inv-btn-mov" title="Registrar movimiento" onclick="${movHandler}">⇄</button>
+                    <button type="button" class="inv-btn-acc inv-btn-kdx" title="Kardex / historial" onclick="verKardex(${idRef || 'null'}, '${escapar(p.producto)}', '${escapar(presentacion)}', ${esHerramienta})">🕐</button>
                     ${btnVentas}
                 </div>
             </td>
@@ -288,7 +287,7 @@ function exportarStockExcel() {
     if (!state.stockData.length) { mostrarToast("No hay datos para exportar", "error"); return; }
     cargarSheetJS(() => {
         const filas = state.stockData.map(p => ({
-            "Tipo":         p.tipo_item === "herramienta" ? "Herramienta" : "Pintura",
+            "Tipo":         p.tipo_item === "herramienta" ? "Herramienta" : "Pintura", // producto | pintura (legacy)
             "Producto":     p.producto || "",
             "Presentación": p.presentacion || "",
             "Marca":        p.marca || "",
@@ -407,7 +406,9 @@ function abrirMov(idPresProd, idHerramienta, nombreCompleto, stockActual) {
     state.tipoMov        = null;
 
     // Resetear selección visual
-    document.querySelectorAll(".inv-tipo-btn").forEach(b => b.className = "inv-tipo-btn");
+    document.querySelectorAll(".inv-tipo-btn").forEach(b => {
+        b.classList.remove("activo", "activo-entrada", "activo-salida", "activo-ajuste");
+    });
     // Resetear header color
     const header = document.getElementById("movHeader");
     if (header) { header.className = "inv-modal-header"; }
@@ -428,19 +429,11 @@ function seleccionarTipoMov(tipo) {
 
     // Actualizar botones
     document.querySelectorAll(".inv-tipo-btn").forEach(b => {
-        b.className = "inv-tipo-btn";
+        b.classList.remove("activo", "activo-entrada", "activo-salida", "activo-ajuste");
     });
     const btn = document.getElementById(`btnTipo${tipo}`);
-    if (btn) btn.className = `inv-tipo-btn activo-${tipo.toLowerCase()}`;
+    if (btn) btn.classList.add("activo", `activo-${tipo.toLowerCase()}`);
 
-    // Color header
-    const header = document.getElementById("movHeader");
-    if (header) {
-        const claseHeader = { ENTRADA: "inv-mov-header-entrada", SALIDA: "inv-mov-header-salida", AJUSTE: "inv-mov-header-ajuste" }[tipo];
-        header.className = `inv-modal-header ${claseHeader}`;
-    }
-
-    // Color botón guardar
     const btnGuardar = document.getElementById("btnGuardarMov");
     if (btnGuardar) {
         btnGuardar.className = `inv-btn-guardar inv-btn-guardar-${tipo.toLowerCase()}`;
@@ -614,13 +607,13 @@ function renderKardex(lista) {
         const signo   = ["entrada","devolucion"].includes(m.tipo) ? "+" : (m.tipo === "ajuste" ? "±" : "−");
         tr.innerHTML = `
             <td style="font-size:12px;white-space:nowrap">${formatFechaHora(m.fecha)}</td>
-            <td><span class="inv-tipo-badge inv-tipo-${tipoKey}">${tipoKey}</span></td>
-            <td style="font-size:12px">${m.motivo || "—"}</td>
-            <td style="font-weight:800;text-align:center">${signo}${m.cantidad}</td>
-            <td style="color:#94a3b8;text-align:center">${m.stock_antes}</td>
-            <td style="font-weight:800;text-align:center">${m.stock_despues}</td>
-            <td style="font-size:12px;color:#6b7280;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${escapar(m.notas)}">${m.notas || "—"}</td>
-            <td style="font-size:12px">${m.hecho_por || "—"}</td>
+            <td><span class="inv-kardex-tipo">${tipoKey}</span></td>
+            <td>${m.motivo || "—"}</td>
+            <td class="td-num">${signo}${m.cantidad}</td>
+            <td class="td-num td-muted">${m.stock_antes}</td>
+            <td class="td-num">${m.stock_despues}</td>
+            <td class="td-notas" title="${escapar(m.notas)}">${m.notas || "—"}</td>
+            <td>${m.hecho_por || "—"}</td>
         `;
         tbody.appendChild(tr);
     });

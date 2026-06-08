@@ -142,7 +142,7 @@
 }
 
 #tablaPresentaciones thead {
-    background: linear-gradient(90deg, #1e2f5e, #3d5168);
+    background: #051c5c;
     color: #f0f4ff;
     position: sticky;
     top: 0;
@@ -201,6 +201,35 @@
 .td-desc   { color: #475569; font-size: 13px; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .td-vacio  { color: var(--pr-muted); font-style: italic; }
 .td-acciones { display: flex; gap: 8px; justify-content: center; }
+
+.campo-imagen { margin-top: 8px; }
+
+.imagen-upload-area {
+    border: 2px dashed #cbd5e1;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    background: #f8fafc;
+}
+
+.imagen-upload-area input[type="file"] {
+    width: 100%;
+    font-size: 13px;
+}
+
+.imagen-upload-hint {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 8px;
+}
+
+.imagen-preview img {
+    max-width: 100%;
+    max-height: 160px;
+    margin-top: 12px;
+    border-radius: 8px;
+    object-fit: contain;
+}
 
 .orden-badge {
     display: inline-block;

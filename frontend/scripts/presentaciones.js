@@ -109,14 +109,18 @@ function crearFila(p) {
         : `<button class="btn-accion btn-editar"   disabled>Editar</button>
            <button class="btn-accion btn-eliminar" disabled>Eliminar</button>`;
 
+    const imgHtml = p.url_imagen
+        ? `<img class="pres-thumb" src="${escaparAttr(p.url_imagen)}" alt="">`
+        : `<span class="pres-thumb-placeholder">IMG</span>`;
+
     tr.innerHTML = `
+        <td class="td-imagen-pres">${imgHtml}</td>
         <td class="td-nombre">
             <span class="cantidad-big">${cantidadBonita}</span>
             <span class="unidad-label">${unidadLabel}</span>
         </td>
         <td class="td-desc">${p.descripcion || '<span class="td-vacio">—</span>'}</td>
         <td>${prodHtml}</td>
-        <td><span class="orden-badge">${p.orden_display}</span></td>
         <td>${visibleHtml}</td>
         <td>${estadoHtml}</td>
         <td class="td-acciones">${acciones}</td>
@@ -229,7 +233,6 @@ function abrirModalEditar(id) {
 
     document.getElementById("inCantidad").value    = p.volumen_cantidad;
     document.getElementById("inDescripcion").value = p.descripcion   || "";
-    document.getElementById("inOrden").value       = p.orden_display || "";
     document.getElementById("inEstado").value      = p.estado;
     document.getElementById("inVisibleWeb").checked = p.es_visible_web;
 
@@ -256,7 +259,7 @@ async function guardarPresentacion() {
         volumen_cantidad: cantidad,
         unidad_medida:    unidad,
         descripcion:      document.getElementById("inDescripcion").value.trim() || null,
-        orden_display:    parseInt(document.getElementById("inOrden").value) || 99,
+        orden_display:    99,
         es_visible_web:   document.getElementById("inVisibleWeb").checked,
         estado:           document.getElementById("inEstado").value,
     };
@@ -334,10 +337,30 @@ function cerrarModal(id) { const el = document.getElementById(id); if (el) el.st
 function limpiarFormulario() {
     document.getElementById("inCantidad").value    = "";
     document.getElementById("inDescripcion").value = "";
-    document.getElementById("inOrden").value       = "";
     document.getElementById("inEstado").value      = "activo";
     document.getElementById("inVisibleWeb").checked = true;
+    const imgInput = document.getElementById("inImagen");
+    if (imgInput) imgInput.value = "";
+    const preview = document.getElementById("previewImagen");
+    if (preview) { preview.innerHTML = ""; preview.hidden = true; }
     limpiarErrorModal();
+}
+
+function vistaPreviaImagen(event) {
+    const file = event.target.files?.[0];
+    const preview = document.getElementById("previewImagen");
+    if (!preview) return;
+    if (!file) {
+        preview.innerHTML = "";
+        preview.hidden = true;
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+        preview.innerHTML = `<img src="${e.target.result}" alt="Vista previa">`;
+        preview.hidden = false;
+    };
+    reader.readAsDataURL(file);
 }
 
 function mostrarErrorModal(msg) { const el = document.getElementById("modalError"); if (el) el.textContent = msg; }
@@ -374,6 +397,7 @@ function mostrarToast(mensaje, tipo = "success") {
 }
 
 function escapar(str) { return (str || "").replace(/'/g, "\\'").replace(/"/g, "&quot;"); }
+function escaparAttr(str) { return (str || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;"); }
 
 document.addEventListener("click", e => {
     if (e.target.id === "modalPresentacion") cerrarModal("modalPresentacion");

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clientes - Sistema</title>
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/modulos-tabla.css">
     <link rel="stylesheet" href="../styles/clientes.css">
     <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,32 +66,26 @@
 
             <!-- Tabla -->
             <div class="tabla-wrapper">
-                <table id="tablaCliente">
+                <table id="tablaCliente" class="tabla-modulo">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Nombre completo</th>
+                            <th style="text-align:left;padding-left:16px">Nombre completo</th>
                             <th>DNI</th>
                             <th>Tipo</th>
                             <th>Teléfono</th>
                             <th>Correo</th>
                             <th>Dirección</th>
                             <th>Estado</th>
-                            <th>Fecha Registro</th>
-                            <th>Acciones</th>
+                            <th style="width:200px">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="cuerpoTabla">
-                        <tr id="filaVacia">
-                            <td colspan="10" class="tabla-vacia">Cargando clientes...</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="cuerpoTabla"></tbody>
                 </table>
             </div>
 
             <!-- ─── MODAL CREAR / EDITAR ─── -->
             <div id="modalCliente" class="modal-overlay">
-                <div class="modal-caja modal-grande">
+                <div class="modal-caja modal-grande modal-scroll">
                     <div class="modal-header">
                         <h3 id="tituloModal">Nuevo Cliente</h3>
                         <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
@@ -109,7 +104,10 @@
                             <label>DNI / RUC</label>
                             <input id="inDni" type="text" placeholder="Número de documento" maxlength="20">
                         </div>
-                        
+                        <div class="campo">
+                            <label>Tipo</label>
+                            <input id="inTipo" type="text" value="Común" readonly disabled>
+                        </div>
                         <div class="campo">
                             <label>Teléfono</label>
                             <input id="inTelefono" type="text" placeholder="Ej: 987654321">
@@ -174,7 +172,8 @@
         </section>
     </main>
 
-    <script src="../scripts/clientes.js"></script>
-    
+    <script src="../scripts/script.js"></script>
+    <script src="../scripts/sidebar.js"></script>
+    <script src="../scripts/cliente.js"></script>
 </body>
 </html>

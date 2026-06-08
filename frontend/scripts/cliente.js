@@ -1,339 +1,395 @@
+"use strict";
+
 // ============================================================
-// clientes.js
+// clientes.js — Módulo Clientes
+// Base de datos: pinturas.clientes
+// API: GET|POST|PUT|DELETE /clientes
 // ============================================================
 
-const API = "http://localhost:3000"; // Ajusta si tu servidor usa otro puerto
+const API = "http://localhost:3000";
 
-let clientes = [];        // lista completa en memoria
-let clienteEditandoId = null;
-let clienteEliminandoId = null;
+// ─── Estado del módulo ────────────────────────────────────────
+const clientesState = {
+    todos:           [],   // todos los clientes en memoria
+    filtrados:       [],   // resultado del filtro actual
+    paginaActual:    1,
+    limitePorPagina: 12,
+    totalPaginas:    1,
+    editandoId:      null,
+    eliminandoId:    null,
+};
 
-// ─────────────────────────────
-// INIT
-// ─────────────────────────────
-document.addEventListener("DOMContentLoaded", () => {
-    cargarNombreUsuario();
-    cargarClientes();
-});
-
-function cargarNombreUsuario() {
-    const nombre = localStorage.getItem("usuario") || "Usuario";
-    const el = document.getElementById("bienvenida");
-    if (el) el.textContent = nombre;
+// ─── Auth header ──────────────────────────────────────────────
+function authHeaders() {
+    const token = localStorage.getItem("token");
+    return {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
 }
 
-// ─────────────────────────────
-// CARGAR CLIENTES
-// ─────────────────────────────
+// ─── Alerta global ────────────────────────────────────────────
+function showAlert(tipo, mensaje) {
+    let t = document.getElementById("toast-global");
+    if (!t) {
+        t = document.createElement("div");
+        t.id = "toast-global";
+        Object.assign(t.style, {
+            position: "fixed", bottom: "26px", right: "26px", zIndex: "9999",
+            padding: "12px 22px", borderRadius: "10px", fontSize: "14px",
+            fontWeight: "600", maxWidth: "380px",
+            boxShadow: "0 6px 24px rgba(0,0,0,.22)",
+            transition: "opacity .3s ease, transform .3s ease",
+            pointerEvents: "none",
+        });
+        document.body.appendChild(t);
+    }
+    const colores = { success: "#16a34a", error: "#dc2626", warning: "#d97706" };
+    t.textContent      = mensaje;
+    t.style.background = colores[tipo] || "#334155";
+    t.style.color      = "#fff";
+    t.style.opacity    = "1";
+    t.style.transform  = "translateY(0)";
+    clearTimeout(t._t);
+    t._t = setTimeout(() => {
+        t.style.opacity   = "0";
+        t.style.transform = "translateY(10px)";
+    }, 3800);
+}
+
+// ─── Init ──────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", cargarClientes);
+
 async function cargarClientes() {
+    mostrarSpinnerClientes(true);
     try {
-        const res = await fetch(`${API}/clientes`);
+        const res = await fetch(`${API}/clientes`, { headers: authHeaders() });
         if (!res.ok) throw new Error("Error al obtener clientes");
-        clientes = await res.json();
-        renderTabla(clientes);
+        clientesState.todos = await res.json();
+        mostrarMensajeInicialClientes();
+        actualizarContadorClientes(0);
     } catch (err) {
         console.error(err);
-        document.getElementById("cuerpoTabla").innerHTML =
-            `<tr><td colspan="10" class="tabla-vacia">❌ Error al cargar clientes</td></tr>`;
+        const tbody = document.getElementById("tabla-clientes-body");
+        if (tbody) tbody.innerHTML = `<tr><td colspan="9" class="tabla-vacia">❌ Error al cargar clientes</td></tr>`;
+        showAlert("error", "No se pudieron cargar los clientes");
+    } finally {
+        mostrarSpinnerClientes(false);
     }
 }
 
-// ─────────────────────────────
-// RENDER TABLA
-// ─────────────────────────────
-function renderTabla(lista) {
-    const tbody = document.getElementById("cuerpoTabla");
-    const badge = document.getElementById("totalClientes");
-
-    badge.textContent = `${lista.length} registro${lista.length !== 1 ? "s" : ""}`;
-
-    if (lista.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="tabla-vacia">No se encontraron clientes.</td></tr>`;
-        return;
-    }
-
-    tbody.innerHTML = lista.map(c => `
-        <tr>
-            <td>${c.id_cliente}</td>
-            <td class="td-nombre">${c.nombre}${c.apellido ? " " + c.apellido : ""}</td>
-            <td>${c.dni_ruc || "<span style='color:#bbb'>—</span>"}</td>
-            <td><span class="tipo-${c.tipo_cliente}">${c.tipo_cliente === "natural" ? "Natural" : "Empresa"}</span></td>
-            <td>${c.telefono || "—"}</td>
-            <td>${c.correo   || "—"}</td>
-            <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${c.direccion || ''}">${c.direccion || "—"}</td>
-            <td><span class="badge badge-${c.estado}">${capitalizar(c.estado)}</span></td>
-            <td>${formatFecha(c.fecha_registro)}</td>
-            <td>
-                <div class="acciones">
-                    <button class="btn-ver"            onclick="verCliente(${c.id_cliente})">👁</button>
-                    <button class="btn-editar"         onclick="abrirModalEditar(${c.id_cliente})">✏️</button>
-                    <button class="btn-eliminar-tabla" onclick="abrirModalEliminar(${c.id_cliente})">🗑</button>
-                </div>
-            </td>
-        </tr>
-    `).join("");
+// ─── Mensaje inicial ──────────────────────────────────────────
+function mostrarMensajeInicialClientes() {
+    const tbody = document.getElementById("tabla-clientes-body");
+    if (tbody) tbody.innerHTML = `<tr><td colspan="9" class="tabla-vacia">
+        <span class="vacia-icono">🔍</span>
+        <span>Busca o filtra para ver los clientes</span>
+    </td></tr>`;
+    actualizarContadorClientes(0);
 }
 
-// ─────────────────────────────
-// FILTRO
-// ─────────────────────────────
+// ─── Filtro en tiempo real ────────────────────────────────────
 function filtrarClientes() {
-    const texto  = document.getElementById("buscarCliente").value.toLowerCase();
-    const estado = document.getElementById("filtroEstado").value;
+    const texto  = (document.getElementById("buscar-clientes")?.value || "").trim().toLowerCase();
+    const estado = document.getElementById("filtroEstadoCliente")?.value || "";
+    const tipo   = document.getElementById("filtroTipoCliente")?.value  || "";
 
-    const filtrados = clientes.filter(c => {
-        const nombreCompleto = `${c.nombre} ${c.apellido || ""} ${c.dni_ruc || ""} ${c.telefono || ""}`.toLowerCase();
-        const coinTexto  = nombreCompleto.includes(texto);
-        const coinEstado = !estado || c.estado === estado;
-        return coinTexto && coinEstado;
+    const hayFiltro = texto || estado || tipo;
+    if (!hayFiltro) { mostrarMensajeInicialClientes(); return; }
+
+    clientesState.filtrados = clientesState.todos.filter(c => {
+        const haystack = `${c.nombre} ${c.apellido || ""} ${c.dni_ruc || ""} ${c.telefono || ""} ${c.correo || ""}`.toLowerCase();
+        return (!texto  || haystack.includes(texto))
+            && (!estado || c.estado       === estado)
+            && (!tipo   || c.tipo_cliente === tipo);
     });
 
-    renderTabla(filtrados);
+    clientesState.paginaActual = 1;
+    clientesState.totalPaginas = Math.ceil(clientesState.filtrados.length / clientesState.limitePorPagina) || 1;
+    renderTablaClientes();
+    actualizarContadorClientes(clientesState.filtrados.length);
 }
 
-// ─────────────────────────────
-// MODAL CREAR
-// ─────────────────────────────
-function abrirModalCrear() {
-    clienteEditandoId = null;
-    limpiarModal();
-    document.getElementById("tituloModal").textContent = "Nuevo Cliente";
-    abrirModal("modalCliente");
-}
+// ─── Render tabla ─────────────────────────────────────────────
+function renderTablaClientes() {
+    const tbody = document.getElementById("tabla-clientes-body");
+    if (!tbody) return;
 
-// ─────────────────────────────
-// MODAL EDITAR
-// ─────────────────────────────
-function abrirModalEditar(id) {
-    const c = clientes.find(x => x.id_cliente === id);
-    if (!c) return;
+    actualizarPaginacionClientes(clientesState.filtrados.length);
 
-    clienteEditandoId = id;
-    limpiarModal();
-    document.getElementById("tituloModal").textContent = "Editar Cliente";
+    const inicio  = (clientesState.paginaActual - 1) * clientesState.limitePorPagina;
+    const pagina  = clientesState.filtrados.slice(inicio, inicio + clientesState.limitePorPagina);
 
-    document.getElementById("inNombre").value    = c.nombre    || "";
-    document.getElementById("inApellido").value  = c.apellido  || "";
-    document.getElementById("inDni").value       = c.dni_ruc   || "";
-    document.getElementById("inTelefono").value  = c.telefono  || "";
-    document.getElementById("inCorreo").value    = c.correo    || "";
-    document.getElementById("inDireccion").value = c.direccion || "";
-    document.getElementById("inNotas").value     = c.notas     || "";
-    document.getElementById("inEstado").value    = c.estado    || "activo";
-
-    abrirModal("modalCliente");
-}
-// ─────────────────────────────
-// GUARDAR (crear o editar)
-// ─────────────────────────────
-
-async function guardarCliente() {
-    limpiarError();
-
-    const nombre = document.getElementById("inNombre").value.trim();
-    if (!nombre) {
-        mostrarError("El nombre es obligatorio.");
+    if (!pagina.length) {
+        tbody.innerHTML = `<tr><td colspan="9" class="tabla-vacia">
+            <span class="vacia-icono">👤</span>
+            <span>No se encontraron clientes</span>
+        </td></tr>`;
         return;
     }
+
+    tbody.innerHTML = pagina.map(c => {
+        const nombreCompleto = `${c.nombre} ${c.apellido || ""}`.trim();
+        const tipoBadge = c.tipo_cliente === "empresa"
+            ? `<span class="tipo-empresa">Empresa</span>`
+            : `<span class="tipo-comun">Común</span>`;
+        const estadoBadge = c.estado === "activo"
+            ? `<span class="badge badge-activo">Activo</span>`
+            : `<span class="badge badge-inactivo">Inactivo</span>`;
+
+        return `<tr>
+            <td class="td-nombre">${nombreCompleto}</td>
+            <td>${c.dni_ruc || "—"}</td>
+            <td>${tipoBadge}</td>
+            <td>${c.telefono || "—"}</td>
+            <td>${c.correo   || "—"}</td>
+            <td title="${esc(c.direccion || "")}" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                ${c.direccion || "—"}
+            </td>
+            <td>${estadoBadge}</td>
+            <td>${formatFechaCliente(c.fecha_registro)}</td>
+            <td class="td-acciones">
+                <button class="btn-ver"            onclick="verDetalleCliente(${c.id_cliente})">👁</button>
+                <button class="btn-editar"         onclick="abrirModalEditarCliente(${c.id_cliente})">✏️</button>
+                <button class="btn-eliminar-tabla" onclick="abrirModalEliminarCliente(${c.id_cliente})">🗑</button>
+            </td>
+        </tr>`;
+    }).join("");
+}
+
+// ─── Paginación ───────────────────────────────────────────────
+function actualizarPaginacionClientes(total) {
+    clientesState.totalPaginas = Math.ceil(total / clientesState.limitePorPagina) || 1;
+    const el = document.getElementById("infoPaginaClientes");
+    if (el) el.textContent = `Página ${clientesState.paginaActual} / ${clientesState.totalPaginas} · ${total} registros`;
+    const prev = document.getElementById("btnPrevClientes");
+    const next = document.getElementById("btnNextClientes");
+    if (prev) prev.disabled = clientesState.paginaActual <= 1;
+    if (next) next.disabled = clientesState.paginaActual >= clientesState.totalPaginas;
+}
+
+function cambiarPaginaClientes(delta) {
+    clientesState.paginaActual = Math.max(1, Math.min(
+        clientesState.paginaActual + delta, clientesState.totalPaginas
+    ));
+    renderTablaClientes();
+}
+
+function actualizarContadorClientes(n) {
+    const el = document.getElementById("totalClientes");
+    if (el) el.textContent = n > 0 ? `${n} registro${n !== 1 ? "s" : ""}` : "";
+}
+
+// ═══════════════════════════════════════════════════════════════
+// MODAL CREAR / EDITAR
+// ═══════════════════════════════════════════════════════════════
+function abrirModalCrearCliente() {
+    clientesState.editandoId = null;
+    document.getElementById("tituloModalCliente").textContent = "Nuevo Cliente";
+    limpiarFormCliente();
+    abrirModalCliente("modalCliente");
+}
+
+function abrirModalEditarCliente(id) {
+    const c = clientesState.todos.find(x => x.id_cliente === id);
+    if (!c) return;
+
+    clientesState.editandoId = id;
+    document.getElementById("tituloModalCliente").textContent = "Editar Cliente";
+    limpiarFormCliente();
+
+    document.getElementById("inNombreCliente").value    = c.nombre;
+    document.getElementById("inApellidoCliente").value  = c.apellido  || "";
+    document.getElementById("inDniCliente").value       = c.dni_ruc   || "";
+    document.getElementById("inTelefonoCliente").value  = c.telefono  || "";
+    document.getElementById("inCorreoCliente").value    = c.correo    || "";
+    document.getElementById("inDireccionCliente").value = c.direccion || "";
+    document.getElementById("inNotasCliente").value     = c.notas     || "";
+    document.getElementById("inEstadoCliente").value    = c.estado    || "activo";
+
+    const selTipo = document.getElementById("inTipoCliente");
+    if (selTipo && selTipo.tagName === "SELECT")
+        selTipo.value = c.tipo_cliente === "empresa" ? "empresa" : "comun";
+
+    abrirModalCliente("modalCliente");
+}
+
+// ─── Guardar ──────────────────────────────────────────────────
+async function guardarCliente() {
+    const nombre = document.getElementById("inNombreCliente").value.trim();
+    if (!nombre) { mostrarErrorCliente("El nombre es obligatorio."); return; }
+
+    // Validar DNI/RUC si se ingresó
+    const dniRuc = document.getElementById("inDniCliente").value.trim();
+    if (dniRuc && !/^[0-9]{8,11}$/.test(dniRuc)) {
+        mostrarErrorCliente("DNI debe tener 8 dígitos o RUC 11 dígitos."); return;
+    }
+
+    const telefono = document.getElementById("inTelefonoCliente").value.trim();
+    if (telefono && !/^[0-9]{9}$/.test(telefono)) {
+        mostrarErrorCliente("El teléfono debe tener 9 dígitos."); return;
+    }
+
+    limpiarErrorCliente();
+    const btn = document.getElementById("btn-guardar-clientes");
+    if (btn) { btn.disabled = true; btn.textContent = "Guardando…"; }
+
+    const inTipo = document.getElementById("inTipoCliente");
+    const tipoCliente = (inTipo && inTipo.tagName === "SELECT" && !inTipo.disabled)
+        ? inTipo.value : "comun";
 
     const payload = {
         nombre,
-        apellido:     document.getElementById("inApellido").value.trim()  || null,
-        dni_ruc:      document.getElementById("inDni").value.trim()        || null,
-        tipo_cliente: "natural",
-        telefono:     document.getElementById("inTelefono").value.trim()   || null,
-        correo:       document.getElementById("inCorreo").value.trim()     || null,
-        direccion:    document.getElementById("inDireccion").value.trim()  || null,
-        notas:        document.getElementById("inNotas").value.trim()      || null,
-        estado:       document.getElementById("inEstado").value,
+        apellido:     document.getElementById("inApellidoCliente").value.trim()  || null,
+        dni_ruc:      dniRuc || null,
+        tipo_cliente: tipoCliente,
+        telefono:     telefono || null,
+        correo:       document.getElementById("inCorreoCliente").value.trim()     || null,
+        direccion:    document.getElementById("inDireccionCliente").value.trim()  || null,
+        notas:        document.getElementById("inNotasCliente").value.trim()      || null,
+        estado:       document.getElementById("inEstadoCliente").value,
     };
 
     try {
-        const url    = clienteEditandoId ? `${API}/clientes/${clienteEditandoId}` : `${API}/clientes`;
-        const method = clienteEditandoId ? "PUT" : "POST";
+        const esEdicion = clientesState.editandoId !== null;
+        const url    = esEdicion ? `${API}/clientes/${clientesState.editandoId}` : `${API}/clientes`;
+        const method = esEdicion ? "PUT" : "POST";
 
-        const res  = await fetch(url, {
-            method,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+        const res  = await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(payload) });
+        const data = await res.json();
+
+        if (!res.ok) { mostrarErrorCliente(data.message || "Error al guardar"); return; }
+
+        // Refrescar lista completa
+        const resAll = await fetch(`${API}/clientes`, { headers: authHeaders() });
+        clientesState.todos = await resAll.json();
+
+        cerrarModalCliente("modalCliente");
+        filtrarClientes();
+        showAlert("success", data.message || "Cliente guardado correctamente");
+    } catch (err) {
+        console.error(err);
+        mostrarErrorCliente("Error de conexión con el servidor.");
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = "Guardar"; }
+    }
+}
+
+// ─── Ver detalle ──────────────────────────────────────────────
+function verDetalleCliente(id) {
+    const c = clientesState.todos.find(x => x.id_cliente === id);
+    if (!c) return;
+
+    const campos = [
+        { label: "Nombre",         valor: `${c.nombre} ${c.apellido || ""}`.trim() },
+        { label: "Tipo",           valor: c.tipo_cliente === "empresa" ? "Empresa" : "Común" },
+        { label: "DNI / RUC",      valor: c.dni_ruc },
+        { label: "Teléfono",       valor: c.telefono },
+        { label: "Correo",         valor: c.correo },
+        { label: "Estado",         valor: c.estado === "activo" ? "✅ Activo" : "❌ Inactivo" },
+        { label: "Dirección",      valor: c.direccion, full: true },
+        { label: "Notas",          valor: c.notas, full: true },
+        { label: "Fecha Registro", valor: formatFechaLargaCliente(c.fecha_registro), full: false },
+    ];
+
+    const cont = document.getElementById("verContenidoCliente");
+    if (cont) cont.innerHTML = campos.map(f => `
+        <div class="ver-campo ${f.full ? "ver-campo-full" : ""}">
+            <span class="ver-label">${f.label}</span>
+            <span class="ver-valor ${!f.valor ? "sin-dato" : ""}">${f.valor || "Sin datos"}</span>
+        </div>`).join("");
+
+    abrirModalCliente("modalVerCliente");
+}
+
+// ─── Eliminar ─────────────────────────────────────────────────
+function abrirModalEliminarCliente(id) {
+    clientesState.eliminandoId = id;
+    abrirModalCliente("modalEliminarCliente");
+}
+
+function cerrarModalEliminarCliente() {
+    clientesState.eliminandoId = null;
+    cerrarModalCliente("modalEliminarCliente");
+}
+
+async function confirmarEliminarCliente() {
+    if (!clientesState.eliminandoId) return;
+    const btn = document.getElementById("btnConfirmarEliminarCliente");
+    if (btn) { btn.disabled = true; btn.textContent = "Eliminando…"; }
+
+    try {
+        const res  = await fetch(`${API}/clientes/${clientesState.eliminandoId}`, {
+            method: "DELETE", headers: authHeaders(),
         });
         const data = await res.json();
 
         if (!res.ok) {
-            mostrarError(data.message || "Error al guardar");
+            cerrarModalCliente("modalEliminarCliente");
+            showAlert("error", data.message || "No se pudo eliminar");
             return;
         }
 
-        cerrarModal();
-        await cargarClientes();
-        mostrarToast(data.message || "Guardado correctamente", "success");
-
-    } catch (err) {
-        console.error(err);
-        mostrarError("Error de conexión con el servidor.");
+        clientesState.todos = clientesState.todos.filter(c => c.id_cliente !== clientesState.eliminandoId);
+        cerrarModalCliente("modalEliminarCliente");
+        filtrarClientes();
+        showAlert("success", "Cliente eliminado correctamente");
+    } catch {
+        showAlert("error", "Error de conexión");
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = "Sí, eliminar"; }
     }
 }
 
-
-// ─────────────────────────────
-// MODAL VER DETALLE
-// ─────────────────────────────
-function verCliente(id) {
-    const c = clientes.find(x => x.id_cliente === id);
-    if (!c) return;
-
-    const campos = [
-        { label: "ID",              valor: c.id_cliente },
-        { label: "Tipo",            valor: c.tipo_cliente === "natural" ? "Natural" : "Empresa" },
-        { label: "Nombre",          valor: c.nombre },
-        { label: "Apellido",        valor: c.apellido },
-        { label: "DNI",       valor: c.dni_ruc },
-        { label: "Teléfono",        valor: c.telefono },
-        { label: "Correo",          valor: c.correo },
-        { label: "Estado",          valor: capitalizar(c.estado) },
-        { label: "Dirección",       valor: c.direccion,   full: true },
-        { label: "Notas",           valor: c.notas,       full: true },
-        { label: "Fecha Registro",  valor: formatFechaLarga(c.fecha_registro), full: false },
-    ];
-
-    document.getElementById("verContenido").innerHTML = campos.map(f => `
-        <div class="ver-campo ${f.full ? "ver-campo-full" : ""}">
-            <span class="ver-label">${f.label}</span>
-            <span class="ver-valor ${!f.valor ? "sin-dato" : ""}">${f.valor || "Sin datos"}</span>
-        </div>
-    `).join("");
-
-    abrirModal("modalVer");
-}
-
-function cerrarModalVer() { cerrarModal("modalVer"); }
-
-// ─────────────────────────────
-// MODAL ELIMINAR
-// ─────────────────────────────
-function abrirModalEliminar(id) {
-    clienteEliminandoId = id;
-    abrirModal("modalEliminar");
-}
-
-function cerrarModalEliminar() {
-    clienteEliminandoId = null;
-    cerrarModal("modalEliminar");
-}
-
-async function confirmarEliminar() {
-    if (!clienteEliminandoId) return;
-
-    try {
-        const res  = await fetch(`${API}/clientes/${clienteEliminandoId}`, { method: "DELETE" });
-        const data = await res.json();
-
-        if (!res.ok) {
-            cerrarModalEliminar();
-            mostrarToast(data.message || "No se pudo eliminar", "error");
-            return;
-        }
-
-        cerrarModalEliminar();
-        await cargarClientes();
-        mostrarToast("Cliente eliminado correctamente", "success");
-
-    } catch (err) {
-        console.error(err);
-        mostrarToast("Error de conexión", "error");
-    }
-}
-
-// ─────────────────────────────
-// HELPERS MODAL
-// ─────────────────────────────
-function abrirModal(id) {
+// ─── Helpers UI ───────────────────────────────────────────────
+function abrirModalCliente(id) {
     const el = document.getElementById(id);
     if (el) { el.style.display = "flex"; el.classList.add("activo"); }
 }
 
-function cerrarModal(id = "modalCliente") {
+function cerrarModalCliente(id = "modalCliente") {
     const el = document.getElementById(id);
     if (el) { el.style.display = "none"; el.classList.remove("activo"); }
 }
 
-function limpiarModal() {
-    ["inNombre","inApellido","inDni","inTelefono","inCorreo","inDireccion","inNotas"].forEach(id => {
-        document.getElementById(id).value = "";
+function limpiarFormCliente() {
+    ["inNombreCliente","inApellidoCliente","inDniCliente","inTelefonoCliente",
+     "inCorreoCliente","inDireccionCliente","inNotasCliente"].forEach(id => {
+        const el = document.getElementById(id); if (el) el.value = "";
     });
-    document.getElementById("inEstado").value = "activo";
-    limpiarError();
+    document.getElementById("inEstadoCliente").value = "activo";
+    const inTipo = document.getElementById("inTipoCliente");
+    if (inTipo && inTipo.tagName === "SELECT") inTipo.value = "comun";
+    limpiarErrorCliente();
 }
 
-function mostrarError(msg) {
-    const el = document.getElementById("modalError");
-    if (el) el.textContent = msg;
+function mostrarErrorCliente(msg) {
+    const el = document.getElementById("errorModalCliente"); if (el) el.textContent = msg;
+}
+function limpiarErrorCliente() {
+    const el = document.getElementById("errorModalCliente"); if (el) el.textContent = "";
+}
+function mostrarSpinnerClientes(v) {
+    const el = document.getElementById("spinnerClientes"); if (el) el.style.display = v ? "flex" : "none";
 }
 
-function limpiarError() {
-    const el = document.getElementById("modalError");
-    if (el) el.textContent = "";
+function formatFechaCliente(iso) {
+    if (!iso) return "—";
+    return new Date(iso).toLocaleDateString("es-PE", { day:"2-digit", month:"2-digit", year:"numeric" });
 }
 
-// Cerrar modales al hacer click fuera
+function formatFechaLargaCliente(iso) {
+    if (!iso) return "—";
+    return new Date(iso).toLocaleString("es-PE", {
+        day:"2-digit", month:"long", year:"numeric", hour:"2-digit", minute:"2-digit"
+    });
+}
+
+function esc(s) { return String(s||"").replace(/'/g,"\\'").replace(/"/g,"&quot;"); }
+
+// Cerrar modales al clic fuera
 document.addEventListener("click", (e) => {
-    ["modalCliente","modalVer","modalEliminar"].forEach(id => {
-        const overlay = document.getElementById(id);
-        if (e.target === overlay) cerrarModal(id);
+    ["modalCliente","modalVerCliente","modalEliminarCliente"].forEach(id => {
+        if (e.target.id === id) cerrarModalCliente(id);
     });
 });
-
-// ─────────────────────────────
-// TOAST NOTIFICATION
-// ─────────────────────────────
-function mostrarToast(mensaje, tipo = "success") {
-    let toast = document.getElementById("toast-global");
-    if (!toast) {
-        toast = document.createElement("div");
-        toast.id = "toast-global";
-        toast.style.cssText = `
-            position:fixed; bottom:24px; right:24px; z-index:9999;
-            padding:12px 20px; border-radius:10px; font-size:14px;
-            font-weight:600; font-family:inherit; max-width:320px;
-            box-shadow:0 6px 20px rgba(0,0,0,0.25);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events:none;
-        `;
-        document.body.appendChild(toast);
-    }
-
-    toast.textContent = mensaje;
-    toast.style.background = tipo === "success" ? "#16a34a" : "#dc2626";
-    toast.style.color       = "#fff";
-    toast.style.opacity     = "1";
-    toast.style.transform   = "translateY(0)";
-
-    clearTimeout(toast._timeout);
-    toast._timeout = setTimeout(() => {
-        toast.style.opacity   = "0";
-        toast.style.transform = "translateY(10px)";
-    }, 3000);
-}
-
-// ─────────────────────────────
-// UTILIDADES
-// ─────────────────────────────
-function capitalizar(str) {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-function formatFecha(isoStr) {
-    if (!isoStr) return "—";
-    const d = new Date(isoStr);
-    return d.toLocaleDateString("es-PE", { day: "2-digit", month: "2-digit", year: "numeric" });
-}
-
-function formatFechaLarga(isoStr) {
-    if (!isoStr) return "—";
-    const d = new Date(isoStr);
-    return d.toLocaleString("es-PE", {
-        day: "2-digit", month: "long", year: "numeric",
-        hour: "2-digit", minute: "2-digit"
-    });
-}

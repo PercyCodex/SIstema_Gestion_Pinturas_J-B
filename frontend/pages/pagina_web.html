@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinturas Universal J&B — Catálogo</title>
+    <link rel="stylesheet" href="../styles/pagina-web.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
+</head>
+<body>
+    <header class="web-header">
+        <div class="web-header-inner">
+            <div class="web-brand">
+                <img src="../Imagenes/LOGO JB 2026 .png" alt="JB" class="web-logo" onerror="this.style.display='none'">
+                <div>
+                    <h1>Pinturas Universal J&amp;B</h1>
+                    <p>Catálogo en línea</p>
+                </div>
+            </div>
+            <nav class="web-nav">
+                <a href="pagina-web.html" class="activo">Productos</a>
+                <a href="../pages/ventas.html">Panel ventas</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="web-main">
+        <section class="web-hero">
+            <h2>Nuestros productos</h2>
+            <p>Precios y disponibilidad sincronizados con el sistema de inventario.</p>
+            <div class="web-buscar">
+                <input type="text" id="buscarWeb" placeholder="Buscar por nombre o código…" oninput="cargarCatalogoWeb()">
+            </div>
+        </section>
+
+        <div id="spinnerWeb" class="web-spinner" style="display:none">Cargando…</div>
+        <div id="gridWeb" class="web-grid"></div>
+        <p id="webContador" class="web-contador"></p>
+    </main>
+
+    <footer class="web-footer">
+        <p>© Pinturas Universal J&amp;B — Datos en tiempo real desde inventario</p>
+    </footer>
+
+    <script src="../scripts/pagina-web.js"></script>
+</body>
+</html>

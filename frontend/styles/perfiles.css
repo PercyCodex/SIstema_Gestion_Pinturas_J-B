@@ -1,9 +1,20 @@
+/* ── VARIABLES ─────────────────────────────────────────────── */
+:root {
+    --per-accent:  #3b82f6;
+    --per-radius:  10px;
+    --per-surface: #ffffff;
+    --per-border:  #e2e8f0;
+    --per-text:    #1e293b;
+    --per-muted:   #94a3b8;
+    --per-hover:   #f0f6ff;
+    --per-shadow:  0 4px 24px rgba(0,0,0,0.18);
+}
+
 /* ── TOOLBAR ───────────────────────────────────────────────── */
 .toolbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
@@ -11,82 +22,321 @@
 #buscarPerfiles {
     flex: 1;
     min-width: 220px;
+    max-width: none;
     padding: 10px 14px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: var(--per-radius);
     outline: none;
     font-size: 14px;
-    transition: 0.2s ease;
-    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--per-text);
 }
 
-#buscar:focus {
-    border-color: #007BFF;
-    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+#buscarPerfiles:focus {
+    border-color: var(--per-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    background: #fff;
 }
 
 #filtroEstado {
+    flex: 0 0 auto;
     padding: 10px 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    border-radius: var(--per-radius);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     font-size: 14px;
-    background: white;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--per-text);
     cursor: pointer;
-    transition: 0.2s ease;
+    outline: none;
 }
 
-#filtroEstado:focus {
-    border-color: #007BFF;
-    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+/* ── TABLA WRAPPER ──────────────────────────────────────────── */
+.tabla-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: var(--per-shadow);
 }
 
-/* ── TABLA ROLES ───────────────────────────────────────────── */
+/* ── TABLA PERFILES ─────────────────────────────────────────── */
 #tablaPerfiles {
     width: 100%;
     border-collapse: collapse;
-    font-size: 19px;
-    font-weight: 700;
-    background: rgb(255, 253, 253);
-    border-radius: 10px;
-    overflow: hidden;
+    background: var(--per-surface);
+    min-width: 600px;
 }
 
 #tablaPerfiles thead {
-    background: #3d5168;
-    color: rgb(250, 250, 250);
+    background: #051c5c;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
-#tablaPerfiles th,
-#tablaPerfiles td {
-    padding: 22px;
+#tablaPerfiles th {
+    padding: 14px;
     text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
-#tablaPerfiles tbody tr {
-    border-bottom: 1px solid #eee;
+#tablaPerfiles td {
+    padding: 12px 14px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--per-text);
+    border-bottom: 1px solid var(--per-border);
+    vertical-align: middle;
 }
 
 #tablaPerfiles tbody tr:hover {
-    background: #f5f5f5;
+    background: var(--per-hover);
+    transition: background 0.15s;
 }
 
-/* ── MODAL GRANDE ──────────────────────────────────────────── */
-.modal-grande {
-    width: 900px;
-    max-width: 95vw;
+/* ── TABLA VACÍA ────────────────────────────────────────────── */
+.tabla-vacia {
+    padding: 48px !important;
+    text-align: center;
+}
+.tabla-vacia span {
+    display: block;
+    color: var(--per-muted);
+}
+.vacia-icono { font-size: 36px; margin-bottom: 8px; }
+
+/* ── BADGES ESTADO ──────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+.badge-activo   { background: #dcfce7; color: #166534; }
+.badge-inactivo { background: #fee2e2; color: #991b1b; }
+
+/* ── ACCIONES TABLA ─────────────────────────────────────────── */
+.td-acciones {
+    display: flex;
+    gap: 7px;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.btn-accion {
+    border: none;
+    padding: 7px 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.18s, transform 0.12s;
+    white-space: nowrap;
+    color: #fff;
+}
+.btn-accion:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+}
+
+.btn-permisos { background: #0ea5e9; }
+.btn-permisos:hover:not(:disabled) { background: #0284c7; transform: translateY(-1px); }
+
+.btn-editar { background: #f59e0b; }
+.btn-editar:hover:not(:disabled) { background: #d97706; transform: translateY(-1px); }
+
+.btn-eliminar-tabla { background: #ef4444; }
+.btn-eliminar-tabla:hover:not(:disabled) { background: #dc2626; transform: translateY(-1px); }
+
+/* ── MODAL OVERLAY ──────────────────────────────────────────── */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 15, 45, 0.60);
+    backdrop-filter: blur(3px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeOverlay 0.15s ease;
+}
+
+@keyframes fadeOverlay {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ── MODAL CAJA ─────────────────────────────────────────────── */
+.modal-caja {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: slideUp 0.2s ease;
     max-height: 90vh;
     overflow-y: auto;
+    width: 440px;
+    max-width: 95vw;
+    position: relative;
 }
 
-/* ── GRILLA DE PERMISOS MODULAR ────────────────────────────── */
+.modal-grande {
+    width: 550px;
+    max-width: 90vw;
+}
+
+.modal-chico {
+    width: 360px;
+    text-align: center;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── MODAL HEADER ───────────────────────────────────────────── */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e8edf5;
+    padding-bottom: 10px;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a2744;
+}
+
+.modal-cerrar {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+    line-height: 1;
+}
+.modal-cerrar:hover { background: #f0f4ff; color: #333; }
+
+/* ── CAMPOS MODAL ───────────────────────────────────────────── */
+#modalPerfil label {
+    display: block;
+    margin-top: 8px;
+    margin-bottom: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+#modalPerfil input,
+#modalPerfil select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #d1d9e8;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    background: #f8faff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#modalPerfil input:focus,
+#modalPerfil select:focus {
+    border-color: var(--per-accent);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.18);
+    background: #fff;
+}
+
+/* ── BOTONES MODAL ──────────────────────────────────────────── */
+.modal-botones {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 4px;
+    border-top: 1px solid #e8edf5;
+    padding-top: 12px;
+}
+
+.btn-cancelar {
+    padding: 8px 20px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+.btn-cancelar:hover { background: #f1f5f9; border-color: #94a3b8; }
+
+.btn-guardar {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.12s;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+}
+.btn-guardar:hover:not(:disabled) { background: linear-gradient(135deg, #1d4ed8, #1e3a8a); transform: translateY(-1px); }
+.btn-guardar:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-eliminar {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.12s;
+}
+.btn-eliminar:hover { background: linear-gradient(135deg, #b91c1c, #7f1d1d); transform: translateY(-1px); }
+
+/* ── MODAL ELIMINAR ─────────────────────────────────────────── */
+.modal-chico h3 {
+    color: #1a2744;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+.modal-chico p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ── GRILLA DE PERMISOS ─────────────────────────────────────── */
 .permisos-header {
     display: grid;
-    grid-template-columns: 160px repeat(4, 100px);
+    grid-template-columns: 130px repeat(4, 70px);
     gap: 4px;
-    padding: 6px 8px;
+    padding: 5px 8px;
     background: #f0f4ff;
     border-radius: 6px 6px 0 0;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: #555;
     text-align: center;
@@ -97,53 +347,56 @@
     text-align: left;
 }
 
+.permisos-scroll-wrap {
+    max-height: min(40vh, 280px);
+    overflow-y: auto;
+    margin-bottom: 8px;
+    padding-right: 4px;
+}
+
 .permisos-grid-modular {
     border: 1px solid #dee2e6;
     border-radius: 0 0 6px 6px;
     overflow: hidden;
-    margin-bottom: 10px;
 }
 
 .permiso-fila {
     display: grid;
-    grid-template-columns: 160px repeat(4, 100px);
+    grid-template-columns: 130px repeat(4, 70px);
     gap: 4px;
-    padding: 8px;
+    padding: 6px 8px;
     align-items: center;
     border-bottom: 1px solid #f0f0f0;
 }
 
-.permiso-fila:last-child {
-    border-bottom: none;
-}
+.permiso-fila:last-child { border-bottom: none; }
 
-.permiso-fila:nth-child(even) {
-    background: #fafafa;
-}
+.permiso-fila:nth-child(even) { background: #fafafa; }
 
 .permiso-modulo {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
-    color: #000000;
+    color: var(--per-text);
 }
 
 .permiso-check {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4px;
     cursor: pointer;
-    font-size: 12px;
-    color: #666;
 }
 
 .permiso-check input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     cursor: pointer;
-    accent-color: #007BFF;
+    accent-color: var(--per-accent);
 }
 
-.permiso-check span {
-    display: none; /* Ya se ven en el header */
+.permiso-check span { display: none; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .modal-caja  { padding: 18px 14px; }
+    .toolbar     { flex-direction: column; align-items: stretch; }
 }

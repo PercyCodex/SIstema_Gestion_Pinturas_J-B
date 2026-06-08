@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roles - Sistema</title>
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/modulos-tabla.css">
     <link rel="stylesheet" href="../styles/perfiles.css">
     <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +45,10 @@
 
         <section id="dashboard-content">
             <div class="encabezado">
-                <h2>Roles y Permisos</h2>
+                <div class="encabezado-titulo">
+                    <h2>Roles y Permisos</h2>
+                    <span id="totalPerfiles" class="badge-total"></span>
+                </div>
                 <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nuevo Rol</button>
             </div>
 
@@ -57,43 +61,50 @@
                 </select>
             </div>
 
-            <table id="tablaPerfiles">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Estado</th>
-                        <th>Usuarios</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="cuerpoTabla"></tbody>
-            </table>
+            <div class="tabla-wrapper">
+                <table id="tablaPerfiles" class="tabla-modulo">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left; padding-left:16px">Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Usuarios</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla"></tbody>
+                </table>
+            </div>
 
-            <!-- ── Modal Crear / Editar ─────────────────────────── -->
             <div id="modalPerfil" class="modal-overlay">
-                <div class="modal-caja modal-grande">
-                    <h3 id="tituloModal">Nuevo Rol</h3>
-
-                    <label>Nombre</label>
-                    <input id="inNombre" type="text" placeholder="Ej: Supervisor de Ventas">
-
-                    <label>Descripción</label>
-                    <input id="inDescripcion" type="text" placeholder="Breve descripción">
-
-                    <label>Estado</label>
-                    <select id="inEstado">
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                    </select>
-
-                    <label style="margin-top:14px;font-weight:600;">Permisos por módulo</label>
-                    <div class="permisos-header">
-                        <span></span>
-                        <span>Ver</span><span>Crear</span><span>Editar</span><span>Eliminar</span>
+                <div class="modal-caja modal-grande modal-perfil">
+                    <div class="modal-header">
+                        <h3 id="tituloModal">Nuevo Rol</h3>
+                        <button type="button" class="modal-cerrar" onclick="cerrarModal()">✕</button>
                     </div>
-                    <div id="permisosGrid" class="permisos-grid-modular"></div>
+
+                    <div class="modal-body-scroll modal-scroll-inner">
+                        <label>Nombre</label>
+                        <input id="inNombre" type="text" placeholder="Ej: Supervisor de Ventas">
+
+                        <label>Descripción</label>
+                        <input id="inDescripcion" type="text" placeholder="Breve descripción">
+
+                        <label>Estado</label>
+                        <select id="inEstado">
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                        </select>
+
+                        <label class="permisos-titulo">Permisos por módulo</label>
+                        <div class="permisos-header">
+                            <span></span>
+                            <span>Ver</span><span>Crear</span><span>Editar</span><span>Eliminar</span>
+                        </div>
+                        <div class="permisos-scroll-wrap">
+                            <div id="permisosGrid" class="permisos-grid-modular"></div>
+                        </div>
+                    </div>
 
                     <div class="modal-botones">
                         <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
@@ -102,18 +113,18 @@
                 </div>
             </div>
 
-            <!-- ── Modal Ver Permisos ──────────────────────────── -->
             <div id="modalUsuariosPerfil" class="modal-overlay">
-                <div class="modal-caja modal-grande">
+                <div class="modal-caja modal-grande modal-scroll">
                     <h3 id="tituloModalUsuarios"></h3>
-                    <div id="listaUsuariosPerfil" style="overflow-x:auto;margin-top:10px;"></div>
+                    <div class="modal-scroll-inner">
+                        <div id="listaUsuariosPerfil"></div>
+                    </div>
                     <div class="modal-botones">
                         <button class="btn-cancelar" onclick="cerrarModalUsuarios()">Cerrar</button>
                     </div>
                 </div>
             </div>
 
-            <!-- ── Modal Eliminar ──────────────────────────────── -->
             <div id="modalEliminar" class="modal-overlay">
                 <div class="modal-caja modal-chico">
                     <h3>¿Eliminar rol?</h3>
@@ -128,6 +139,7 @@
     </main>
 
     <script src="../scripts/script.js"></script>
+    <script src="../scripts/sidebar.js"></script>
     <script src="../scripts/perfiles.js"></script>
 </body>
 </html>

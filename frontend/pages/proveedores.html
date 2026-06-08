@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/modulos-tabla.css">
     <link rel="stylesheet" href="../styles/proveedores.css">
     <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
 </head>
@@ -135,7 +136,7 @@
 
         <!-- ══ MODAL CREAR / EDITAR ══════════════════════════════ -->
         <div id="modalProveedor" class="modal-overlay">
-            <div class="modal-caja modal-grande">
+            <div class="modal-caja modal-grande modal-con-scroll">
                 <div class="modal-header">
                     <div class="modal-header-left">
                         <h3 id="tituloModal">Nuevo Proveedor</h3>
@@ -144,10 +145,15 @@
                     <button class="modal-cerrar" onclick="cerrarModalForm()" title="Cerrar">✕</button>
                 </div>
 
+                <div class="modal-body-scroll">
                 <!-- Sección: Datos de empresa -->
                 <div class="form-section">
                     <div class="form-section-title">🏢 Datos de la Empresa</div>
                     <div class="form-section-body">
+                        <div class="campo">
+                            <label for="inCodigo">Código</label>
+                            <input id="inCodigo" type="text" readonly placeholder="Se asigna al guardar" autocomplete="off">
+                        </div>
                         <div class="campo">
                             <label for="inRuc">RUC <span class="req">*</span></label>
                             <input id="inRuc" type="text" placeholder="Ej: 20123456789" maxlength="20" autocomplete="off">
@@ -220,6 +226,7 @@
                 </div>
 
                 <p id="modalError" class="modal-error"></p>
+                </div>
 
                 <div class="modal-botones">
                     <button class="btn-cancelar" onclick="cerrarModalForm()">Cancelar</button>
@@ -290,6 +297,7 @@
 </main>
 
 <script src="../scripts/script.js"></script>
+<script src="../scripts/sidebar.js"></script>
 <script src="../scripts/proveedores.js"></script>
 </body>
 </html>

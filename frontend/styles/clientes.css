@@ -39,7 +39,8 @@
 
 .toolbar input[type="text"] {
     flex: 1;
-    min-width: 220px;
+    max-width: none;
+    min-width: 180px;
     padding: 10px 14px;
     border: 1px solid rgba(255,255,255,0.2);
     border-radius: 10px;
@@ -74,19 +75,22 @@
 /* ── Tabla wrapper con scroll horizontal ────────────────── */
 .tabla-wrapper {
     overflow-x: auto;
+    max-width: 100%;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    overflow: hidden;
 }
 
 #tablaCliente {
     width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
     background: #ffffff;
-    min-width: 900px;
+    table-layout: auto;
 }
 
 #tablaCliente thead {
-    background: linear-gradient(90deg, #1e2f5e, #3d5168);
+    background: #051c5c;
     color: #f0f4ff;
     position: sticky;
     top: 0;
@@ -148,8 +152,22 @@
 .badge-inactivo { background: #fde8e8; color: #8b1a1a; }
 
 /* ── Badges de tipo ─────────────────────────────────────── */
+.tipo-comun,
 .tipo-natural  { background: #e3eeff; color: #1e40af; font-size: 12px; padding: 3px 9px; border-radius: 12px; font-weight: 600; }
 .tipo-empresa  { background: #fef3c7; color: #92400e; font-size: 12px; padding: 3px 9px; border-radius: 12px; font-weight: 600; }
+
+#inTipo {
+    background: #eef2ff;
+    color: #475569;
+    cursor: not-allowed;
+}
+
+.td-direccion {
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* ── Acciones en tabla ──────────────────────────────────── */
 .acciones {

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios - Sistema</title>
     <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/modulos-tabla.css">
     <link rel="stylesheet" href="../styles/perfiles.css">
     <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +45,10 @@
 
         <section id="dashboard-content">
             <div class="encabezado">
-                <h2>Usuarios</h2>
+                <div class="encabezado-titulo">
+                    <h2>Usuarios</h2>
+                    <span id="totalUsuarios" class="badge-total"></span>
+                </div>
                 <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nuevo Usuario</button>
             </div>
 
@@ -58,20 +62,21 @@
                 </select>
             </div>
 
-            <table id="tablaUsuarios">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="cuerpoTabla"></tbody>
-            </table>
+            <div class="tabla-wrapper">
+                <table id="tablaUsuarios" class="tabla-modulo">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left;padding-left:16px">Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th style="width:200px">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpoTabla"></tbody>
+                </table>
+            </div>
 
             <!-- Modal Crear / Editar -->
             <div id="modalUsuario" class="modal-overlay">
@@ -122,6 +127,7 @@
     </main>
 
     <script src="../scripts/script.js"></script>
+    <script src="../scripts/sidebar.js"></script>
     <script src="../scripts/usuarios.js"></script>
 </body>
 </html>

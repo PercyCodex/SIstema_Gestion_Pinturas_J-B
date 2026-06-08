@@ -51,7 +51,10 @@
                 <h2>Productos</h2>
                 <span id="totalProductos" class="badge-total"></span>
             </div>
-            <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nuevo Producto</button>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <a href="mezclas.html" class="btn-nuevo" style="text-decoration:none;background:#6366f1">🎨 Mezclas</a>
+                <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nuevo ítem</button>
+            </div>
         </div>
 
         <div id="errorGeneral"></div>
@@ -100,12 +103,14 @@
                 <thead>
                     <tr>
                         <th style="text-align:left;padding-left:16px">Nombre</th>
+                        <th>Tipo</th>
                         <th>Marca</th>
                         <th>Categoría</th>
                         <th>Código SKU</th>
                         <th>Precio Base</th>
                         <th>Unidad</th>
                         <th>Mezcable</th>
+                        <th>Inventario</th>
                         <th>Estado</th>
                         <th>Registrado por</th>
                         <th>Acciones</th>
@@ -115,7 +120,6 @@
             </table>
         </div>
 
-        <!-- ══ MODAL CREAR / EDITAR ══ -->
         <div id="modalProducto" class="modal-overlay">
             <div class="modal-caja modal-grande">
                 <div class="modal-header">
@@ -123,72 +127,99 @@
                     <button class="modal-cerrar" onclick="cerrarModalForm()">✕</button>
                 </div>
 
-                <div class="modal-grid">
-                    <div class="campo campo-full">
-                        <label for="inNombre">Nombre <span class="req">*</span></label>
-                        <input id="inNombre" type="text" placeholder="Ej: Esmalte Rojo Brillante" maxlength="120" autocomplete="off">
-                    </div>
+                <!-- ── Sección 1: Datos del producto ── -->
+                <div class="form-section">
+                    <div class="form-section-title">📦 Información del Producto</div>
+                    <div class="modal-grid">
+                        <div class="campo campo-full">
+                            <label for="inNombre">Nombre <span class="req">*</span></label>
+                            <input id="inNombre" type="text" placeholder="Ej: Esmalte Rojo Brillante" maxlength="120" autocomplete="off">
+                        </div>
 
-                    <div class="campo">
-                        <label for="inMarca">Marca <span class="req">*</span></label>
-                        <select id="inMarca">
-                            <option value="">— Selecciona una marca —</option>
-                        </select>
-                    </div>
+                        <div class="campo" id="campoTipoItem">
+                            <label for="inTipoItem">Tipo de ítem <span class="req">*</span></label>
+                            <select id="inTipoItem" onchange="aplicarReglasFormularioPorTipoItem()">
+                                <option value="">— Selecciona —</option>
+                                <option value="producto">Pintura (producto)</option>
+                                <option value="herramienta">Herramienta</option>
+                            </select>
+                        </div>
 
-                    <div class="campo">
-                        <label for="inTipo">Tipo de Pintura <span class="req">*</span></label>
-                        <select id="inTipo">
-                            <option value="">— Selecciona un tipo —</option>
-                        </select>
-                    </div>
+                        <div class="campo" id="campoMarca">
+                            <label for="inMarca">Marca <span class="req">*</span></label>
+                            <select id="inMarca">
+                                <option value="">— Selecciona una marca —</option>
+                            </select>
+                        </div>
 
-                    <div class="campo">
-                        <label for="inCategoria">Categoría</label>
-                        <select id="inCategoria">
-                            <option value="">— Selecciona una categoría —</option>
-                        </select>
-                    </div>
+                        <div class="campo" id="campoTipoPintura">
+                            <label for="inTipoPintura">Tipo de pintura <span class="req">*</span></label>
+                            <select id="inTipoPintura">
+                                <option value="">— Selecciona un tipo —</option>
+                            </select>
+                        </div>
 
-                    <div class="campo">
-                        <label for="inCodigo">Código SKU</label>
-                        <input id="inCodigo" type="text" placeholder="Ej: ESM-ROJO-1L" maxlength="40" autocomplete="off">
-                    </div>
+                        <div class="campo" id="campoCategoria" style="display:none">
+                            <label for="inCategoria" id="lblCategoria">Categoría</label>
+                            <select id="inCategoria">
+                                <option value="">— Primero elige tipo de ítem —</option>
+                            </select>
+                        </div>
 
-                    <div class="campo">
-                        <label for="inPrecio">Precio Base (S/) <span class="req">*</span></label>
-                        <input id="inPrecio" type="number" min="0" step="0.01" placeholder="0.00">
-                    </div>
+                        <div class="campo">
+                            <label for="inCodigo">Código SKU</label>
+                            <input id="inCodigo" type="text" placeholder="Ej: ESM-ROJO-1L (opcional, se auto-genera)" maxlength="40" autocomplete="off">
+                        </div>
 
-                    <div class="campo">
-                        <label for="inUnidad">Unidad de Medida</label>
-                        <select id="inUnidad">
-                            <option value="litro">Litro</option>
-                            <option value="galon">Galón</option>
-                            <option value="kg">Kilogramo</option>
-                            <option value="unidad">Unidad</option>
-                        </select>
-                    </div>
+                        <div class="campo">
+                            <label for="inPrecio">Precio Base (S/) <span class="req">*</span></label>
+                            <input id="inPrecio" type="number" min="0" step="0.01" placeholder="0.00">
+                        </div>
 
-                    <div class="campo">
-                        <label for="inEstado">Estado</label>
-                        <select id="inEstado">
-                            <option value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
-                            <option value="descontinuado">Descontinuado</option>
-                        </select>
-                    </div>
+                        <div class="campo">
+                            <label for="inUnidad">Unidad de Medida</label>
+                            <select id="inUnidad">
+                                <option value="litro">Litro</option>
+                                <option value="galon">Galón</option>
+                                <option value="kg">Kilogramo</option>
+                                <option value="unidad">Unidad</option>
+                            </select>
+                        </div>
 
-                    <div class="campo campo-full">
-                        <label for="inDescripcion">Descripción</label>
-                        <input id="inDescripcion" type="text" placeholder="Descripción breve del producto" maxlength="255" autocomplete="off">
-                    </div>
+                        <div class="campo">
+                            <label for="inEstado">Estado</label>
+                            <select id="inEstado">
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                                <option value="descontinuado">Descontinuado</option>
+                            </select>
+                        </div>
 
-                    <div class="campo campo-check">
-                        <label class="check-label">
-                            <input id="inMezcable" type="checkbox">
-                            <span>¿Se puede usar en mezclas?</span>
-                        </label>
+                        <div class="campo campo-full">
+                            <label for="inDescripcion">Descripción</label>
+                            <input id="inDescripcion" type="text" placeholder="Descripción breve del producto" maxlength="255" autocomplete="off">
+                        </div>
+
+                        <div class="campo campo-check campo-full" id="campoMezcable">
+                            <label class="check-label">
+                                <input id="inMezcable" type="checkbox">
+                                <span>¿Se puede usar en mezclas?</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Sección 2: Presentaciones e Inventario ── -->
+                <div class="form-section form-section-pres">
+                    <div class="form-section-title">
+                        📐 Presentaciones e Inventario
+                        <span class="pres-section-hint">Selecciona en qué tamaños se vende este producto</span>
+                    </div>
+                    <div id="presContainer" class="pres-container">
+                        <!-- Renderizado por JS -->
+                    </div>
+                    <div id="presResumen" class="pres-resumen pres-resumen-warn">
+                        Ninguna presentación seleccionada
                     </div>
                 </div>
 
@@ -218,6 +249,8 @@
 </main>
 
 <script src="../scripts/script.js"></script>
+<script src="../scripts/sidebar.js"></script>
+<script src="../scripts/categoriaAmbito.js"></script>
 <script src="../scripts/productos.js"></script>
 </body>
 </html>

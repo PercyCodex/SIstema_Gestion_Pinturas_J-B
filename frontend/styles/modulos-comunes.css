@@ -1,0 +1,39 @@
+/* Layout compartido — sin sobrescribir tablas/botones de cada módulo */
+
+#dashboard-content {
+    overflow-x: hidden;
+    min-width: 0;
+}
+
+/* Modales: scroll dentro del formulario, no en el borde de la ventana */
+.modal-overlay.modal-scroll-fix {
+    overflow: hidden !important;
+    align-items: center !important;
+    padding: 20px 16px !important;
+}
+
+.modal-caja.modal-scroll {
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-scroll-inner,
+.modal-body-scroll {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-right: 6px;
+}
+
+.modal-scroll-inner::-webkit-scrollbar,
+.modal-body-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-scroll-inner::-webkit-scrollbar-thumb,
+.modal-body-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}

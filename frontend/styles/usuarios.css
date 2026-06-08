@@ -1,3 +1,5 @@
+@import url('./modulos-comunes.css');
+
 *{
     box-sizing: border-box; /* Incluye padding y border en el ancho total */
     margin: 0;
@@ -19,14 +21,23 @@ main{
 }
 
 #sidebar{
-    width: 260px;   /* Ancho del sidebar */
+    width: 72px;
+    min-width: 72px;
     background: linear-gradient(135deg, #010e1b, #031b4b);
-
-    padding: 10px; /* Espaciado interno */
-    border-right: 1px solid #000105; /* Línea divisoria */
-    font-size: 20px;
+    padding: 10px;
+    border-right: 1px solid #000105;
+    font-size: 15px;
     display: flex;
     flex-direction: column;
+    transition: width 0.48s cubic-bezier(0.4, 0, 0.2, 1),
+                min-width 0.48s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    z-index: 100;
+}
+
+#sidebar:hover{
+    width: 260px;
+    min-width: 260px;
 }
 
 #sidebar-header{
@@ -47,11 +58,21 @@ main{
     color: #f8f5f5;
     margin: 0;
     padding: 0;
-
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    opacity: 0;
+    max-width: 0;
+    transition: opacity 0.35s ease 0.08s, max-width 0.48s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#sidebar:hover #bienvenida{
+    opacity: 1;
+    max-width: 200px;
     white-space: normal;
     word-break: break-word;
-    flex: 1;
 }
 
 #usuario{
@@ -80,13 +101,57 @@ main{
 }
 
 #navegador a{
-    display: block; /* Hace que el enlace ocupe todo el ancho disponible */
-    text-decoration: none; /* Elimina el subrayado */
+    display: flex;
+    align-items: center;
+    gap: 0;
+    text-decoration: none;
     color: #ffffff;
-    padding: 16px 18px; /* Espaciado interno */
+    padding: 12px 10px;
     border-radius: 10px;
-    transition: 0.3s;
+    transition: background 0.25s ease, padding 0.48s cubic-bezier(0.4, 0, 0.2, 1), gap 0.48s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
+    font-size: 0;
+    line-height: 1.2;
+}
+
+#sidebar:hover #navegador a{
+    padding: 12px 14px;
+    gap: 12px;
+    font-size: 15px;
+}
+
+.nav-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+}
+
+.nav-label {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity 0.35s ease 0.06s, max-width 0.48s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 500;
+}
+
+#sidebar:hover .nav-label {
+    opacity: 1;
+    max-width: 200px;
+}
+
+#navegador a.nav-active {
+    background: #3c3850ff;
+    font-weight: 600;
 }
 
 
@@ -139,11 +204,12 @@ main{
 
 #dashboard-content{
     padding: 30px;
-    flex: 1;  /* Permite que el contenido principal ocupe el espacio restante */
+    flex: 1;
+    min-width: 0;
+    overflow-x: hidden;
     background: linear-gradient(135deg, #b6c0d3 0%, #485275 50%, #1d2647 100%);
-    /*background: linear-gradient(rgba(47, 91, 211, 0.5), rgba(71, 71, 71, 0.986), rgba(132, 132, 204, 0.5));*/
-    background-attachment: fixed; /* Mantiene el fondo quieto si la lista es muy larga y hay que bajar */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-attachment: fixed;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 @media (max-width: 768px){
@@ -156,103 +222,22 @@ main{
 }
 
 
-/* ── USUARIOS ─────────────────────────────── */
-
-.encabezado {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
 .btn-nuevo {
-    background: #007BFF;
+    background: #3b82f6;
     color: white;
     border: none;
-    padding: 13px 20px;
+    padding: 11px 22px;
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+    transition: background 0.2s, transform 0.15s;
 }
-
 
 .btn-nuevo:hover {
-    background: #1457a3;
-}
-
-#tablaUsuarios {
-    width: 100%;
-    border-collapse: collapse;
-    background: #ffffff;
-    border-radius: 10px;
-    overflow: hidden;
-    
-}
-
-
-#tablaUsuarios thead {
-    background: #3d5168;
-    color: rgb(248, 248, 248);
-
-}
-
-#tablaUsuarios th,
-#tablaUsuarios td {
-    padding: 12px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-}
-
-#tablaUsuarios tbody tr {
-    border-bottom: 1px solid #0c0c0c;
-}
-
-#tablaUsuarios tbody tr:hover {
-    background: #f5f5f5;
-}
-
-.estado-aprobado {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 13px;
-    background: #d4edda;
-    color: #155724;
-}
-
-.estado-noaccess {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 13px;
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.btn-editar {
-    background: #ffc107;
-    border: none;
-    padding: 13px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.btn-editar:hover {
-    background: #e0a800;
-}
-
-.btn-eliminar-tabla {
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 13px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-}
-.btn-eliminar-tabla:hover {
-    background: #a3323d;
+    background: #2563eb;
+    transform: translateY(-1px);
 }
 
 /* Modal */
@@ -264,6 +249,7 @@ main{
     justify-content: center;
     align-items: center;
     z-index: 999;
+    overflow: hidden;
 }
 
 .modal-caja {

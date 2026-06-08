@@ -1,9 +1,4 @@
-/* ============================================================
-   categoria.css — Módulo Categorías de Pinturas
-   Complementa usuarios.css (base del sistema)
-   ============================================================ */
 
-/* ── Variables locales ──────────────────────────────────────── */
 :root {
     --cat-primary:   #1e3a6e;
     --cat-accent:    #3b82f6;
@@ -164,7 +159,7 @@
 }
 
 #tablaCategorias thead {
-    background: linear-gradient(90deg, #1e2f5e, #3d5168);
+    background: #051c5c;
     color: #f0f4ff;
     position: sticky;
     top: 0;
@@ -431,7 +426,7 @@
     padding: 9px 22px;
     border: none;
     border-radius: 8px;
-    background: linear-gradient(135deg, #2563eb, #1e40af);
+    background: #051c5c;
     color: #fff;
     font-size: 14px;
     font-weight: 700;
@@ -439,7 +434,7 @@
     transition: background 0.15s, transform 0.12s;
     box-shadow: 0 2px 8px rgba(37,99,235,0.3);
 }
-.btn-guardar:hover:not(:disabled) { background: linear-gradient(135deg, #1d4ed8, #1e3a8a); transform: translateY(-1px); }
+.btn-guardar:hover:not(:disabled) { background: #041649; transform: translateY(-1px); }
 .btn-guardar:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .btn-eliminar-confirm {

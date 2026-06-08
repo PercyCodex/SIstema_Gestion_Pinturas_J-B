@@ -132,7 +132,7 @@ function renderTabla(lista) {
                     <div class="empresa-info">
                         <span class="empresa-razon">${p.razon_social}</span>
                         ${p.nombre_comercial ? `<span class="empresa-comercial">${p.nombre_comercial}</span>` : ""}
-                        <span class="empresa-ruc">RUC: ${p.ruc}</span>
+                        <span class="empresa-ruc">${codigoProveedor(p.id_proveedor)} · RUC: ${p.ruc}</span>
                     </div>
                 </div>
             </td>
@@ -189,6 +189,16 @@ function filtrarProveedores() {
     actualizarContador(filtrados.length);
 }
 
+function codigoProveedor(id) {
+    return `PROV-${String(id).padStart(4, "0")}`;
+}
+
+function siguienteCodigoProveedor() {
+    if (!db.proveedores.length) return "PROV-0001";
+    const maxId = Math.max(...db.proveedores.map(p => p.id_proveedor));
+    return codigoProveedor(maxId + 1);
+}
+
 // ─── Modal Crear ──────────────────────────────────────────────────────────────
 function abrirModalCrear() {
     if (!puedeGestionar) { mostrarToast("Sin permiso para crear proveedores", "error"); return; }
@@ -196,6 +206,8 @@ function abrirModalCrear() {
     document.getElementById("tituloModal").textContent = "Nuevo Proveedor";
     document.querySelector(".modal-header-sub").textContent = "Complete los datos del proveedor";
     limpiarFormulario();
+    document.getElementById("inCodigo").value = siguienteCodigoProveedor();
+    scrollModalProveedor();
     abrirModal("modalProveedor");
 }
 
@@ -208,6 +220,7 @@ function abrirModalEditar(id) {
     document.getElementById("tituloModal").textContent = "Editar Proveedor";
     document.querySelector(".modal-header-sub").textContent = `Modificando: ${p.razon_social}`;
 
+    document.getElementById("inCodigo").value         = codigoProveedor(p.id_proveedor);
     document.getElementById("inRuc").value            = p.ruc             || "";
     document.getElementById("inRazonSocial").value    = p.razon_social    || "";
     document.getElementById("inNombreComercial").value = p.nombre_comercial || "";
@@ -221,7 +234,13 @@ function abrirModalEditar(id) {
     document.getElementById("inEstado").value         = p.estado          || "activo";
 
     limpiarErrorModal();
+    scrollModalProveedor();
     abrirModal("modalProveedor");
+}
+
+function scrollModalProveedor() {
+    const body = document.querySelector("#modalProveedor .modal-body-scroll");
+    if (body) body.scrollTop = 0;
 }
 
 // ─── Editar desde modal Ver ───────────────────────────────────────────────────

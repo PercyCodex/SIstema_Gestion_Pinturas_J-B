@@ -50,7 +50,7 @@
                 <h2 class="inv-titulo">Inventario</h2>
                 <p class="inv-subtitulo">Control de stock, movimientos y precios · sincronizado con Productos y Presentaciones</p>
             </div>
-            <button class="inv-btn-excel" onclick="exportarStockExcel()">📥 Exportar Excel</button>
+            <button class="inv-btn-excel" onclick="exportarStockExcel()">Exportar Excel</button>
         </div>
 
         <!-- CARDS RESUMEN -->
@@ -83,13 +83,6 @@
                     <span class="inv-card-lbl">Normal</span>
                 </div>
             </div>
-            <div class="inv-card inv-card-valor">
-                <div class="inv-card-icon">💰</div>
-                <div class="inv-card-data">
-                    <span class="inv-card-num inv-card-num-sm" id="statValor">—</span>
-                    <span class="inv-card-lbl">Valor Inventario</span>
-                </div>
-            </div>
         </div>
 
         <!-- TOOLBAR FILTROS -->
@@ -105,7 +98,7 @@
             </select>
             <select id="filtroTipoItem" onchange="filtrarStock()">
                 <option value="">Pinturas y Herramientas</option>
-                <option value="pintura">Solo Pinturas</option>
+                <option value="producto">Solo Pinturas</option>
                 <option value="herramienta">Solo Herramientas</option>
             </select>
             <select id="filtroSemaforo" onchange="filtrarStock()">
@@ -214,7 +207,6 @@
         <div id="modalMovimiento" class="inv-modal-overlay">
             <div class="inv-modal-caja inv-modal-mov" style="width:540px">
 
-                <!-- Header que cambia de color según tipo -->
                 <div id="movHeader" class="inv-modal-header">
                     <div>
                         <h3>Registrar Movimiento</h3>
@@ -223,23 +215,13 @@
                     <button class="inv-modal-cerrar" onclick="cerrarModalMovimiento()">✕</button>
                 </div>
 
-                <!-- Selector visual de tipo -->
-                <div class="inv-tipo-selector">
-                    <button id="btnTipoENTRADA" class="inv-tipo-btn" onclick="seleccionarTipoMov('ENTRADA')">
-                        <span class="tipo-ico">📥</span>
-                        <span class="tipo-nombre">ENTRADA</span>
-                        <span class="tipo-desc">Llega mercancía</span>
-                    </button>
-                    <button id="btnTipoSALIDA" class="inv-tipo-btn" onclick="seleccionarTipoMov('SALIDA')">
-                        <span class="tipo-ico">📤</span>
-                        <span class="tipo-nombre">SALIDA</span>
-                        <span class="tipo-desc">Sale producto</span>
-                    </button>
-                    <button id="btnTipoAJUSTE" class="inv-tipo-btn" onclick="seleccionarTipoMov('AJUSTE')">
-                        <span class="tipo-ico">⚖️</span>
-                        <span class="tipo-nombre">AJUSTE</span>
-                        <span class="tipo-desc">Corrección conteo</span>
-                    </button>
+                <div class="inv-campo">
+                    <label>Tipo de movimiento <span class="req">*</span></label>
+                    <div class="inv-tipo-selector">
+                        <button type="button" id="btnTipoENTRADA" class="inv-tipo-btn" onclick="seleccionarTipoMov('ENTRADA')">Entrada</button>
+                        <button type="button" id="btnTipoSALIDA" class="inv-tipo-btn" onclick="seleccionarTipoMov('SALIDA')">Salida</button>
+                        <button type="button" id="btnTipoAJUSTE" class="inv-tipo-btn" onclick="seleccionarTipoMov('AJUSTE')">Ajuste</button>
+                    </div>
                 </div>
 
                 <!-- Motivo — aparece al elegir tipo -->
@@ -263,8 +245,8 @@
 
                 <!-- Sección ENTRADA -->
                 <div id="seccionEntrada" style="display:none">
-                    <div class="inv-seccion inv-seccion-entrada">
-                        <div class="inv-seccion-titulo">📥 Datos de la Entrada</div>
+                    <div class="inv-seccion">
+                        <div class="inv-seccion-titulo">Datos de la entrada</div>
                         <div class="inv-fila2">
                             <div class="inv-campo">
                                 <label>Precio Compra (S/)</label>
@@ -282,22 +264,17 @@
 
                 <!-- Sección SALIDA -->
                 <div id="seccionSalida" style="display:none">
-                    <div class="inv-seccion inv-seccion-salida">
-                        <div class="inv-seccion-titulo">📤 Datos de la Salida</div>
-                        <p style="font-size:13px;color:#92400e;line-height:1.5">
-                            Se descontará del stock actual. Verifica la cantidad antes de confirmar.
-                        </p>
+                    <div class="inv-seccion">
+                        <p class="inv-ajuste-tip">Se descontará del stock actual. Verifica la cantidad antes de confirmar.</p>
                     </div>
                 </div>
 
-                <!-- Sección AJUSTE -->
                 <div id="seccionAjuste" style="display:none">
-                    <div class="inv-seccion inv-seccion-ajuste">
-                        <div class="inv-seccion-titulo">⚖️ Información del Ajuste</div>
-                        <div class="inv-ajuste-tip">
-                            💡 Ingresa el número <strong>TOTAL</strong> de unidades contadas físicamente.
+                    <div class="inv-seccion">
+                        <p class="inv-ajuste-tip">
+                            Ingresa el número <strong>total</strong> de unidades contadas físicamente.
                             El sistema calculará la diferencia automáticamente.
-                        </div>
+                        </p>
                     </div>
                 </div>
 
@@ -344,7 +321,7 @@
                         <span id="kardexSubtitulo" class="inv-modal-sub"></span>
                     </div>
                     <div style="display:flex;gap:8px;align-items:center">
-                        <button class="inv-btn-excel-sm" onclick="exportarKardexExcel()">📊 Excel</button>
+                        <button class="inv-btn-excel-sm" onclick="exportarKardexExcel()">Excel</button>
                         <button class="inv-modal-cerrar" onclick="cerrarKardex()">✕</button>
                     </div>
                 </div>
@@ -384,7 +361,7 @@
                         <span id="ventasSubtitulo" class="inv-modal-sub"></span>
                     </div>
                     <div style="display:flex;gap:8px;align-items:center">
-                        <button class="inv-btn-excel-sm" style="background:#22c55e" onclick="exportarVentasExcel()">📊 Excel</button>
+                        <button class="inv-btn-excel-sm" onclick="exportarVentasExcel()">Excel</button>
                         <button class="inv-modal-cerrar" onclick="cerrarVentas()">✕</button>
                     </div>
                 </div>
@@ -420,6 +397,7 @@
 </main>
 
 <script src="../scripts/script.js"></script>
+<script src="../scripts/sidebar.js"></script>
 <script src="../scripts/inventario.js"></script>
 </body>
 </html>

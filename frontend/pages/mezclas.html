@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mezclas — Sistema</title>
+    <link rel="stylesheet" href="../styles/usuarios.css">
+    <link rel="stylesheet" href="../styles/modulos-tabla.css">
+    <link rel="stylesheet" href="../styles/presentaciones.css">
+    <link rel="icon" type="image/x-icon" href="../Imagenes/LOGO JB 2026 .png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<main>
+    <aside id="sidebar">
+        <div id="sidebar-header">
+            <div id="usuario">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="40px" fill="white">
+                    <path d="M234-276q51-39 114-61.5T480-360q69 0 132 22.5T726-276q35-41 54.5-93T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 59 19.5 111t54.5 93Zm146.5-204.5Q340-521 340-580t40.5-99.5Q421-720 480-720t99.5 40.5Q620-639 620-580t-40.5 99.5Q539-440 480-440t-99.5-40.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm100-95.5q47-15.5 86-44.5-39-29-86-44.5T480-280q-53 0-100 15.5T294-220q39 29 86 44.5T480-160q53 0 100-15.5ZM523-537q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm-43-43Zm0 360Z"/>
+                </svg>
+            </div>
+            <h1 id="bienvenida"></h1>
+        </div>
+        <nav id="navegador">
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="usuarios.html">Usuarios</a></li>
+                <li><a href="perfiles.html">Perfiles</a></li>
+                <li><a href="categoria.html">Categorías</a></li>
+                <li><a href="marcas.html">Marcas</a></li>
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="ventas.html">Ventas</a></li>
+                <li><a href="mezclas.html">Mezclas</a></li>
+                <li><a href="clientes.html">Clientes</a></li>
+                <li><a href="presentaciones.html">Presentaciones</a></li>
+                <li><a href="proveedores.html">Proveedores</a></li>
+                <li><a href="gestion_tienda.html">Gestión Tienda</a></li>
+                <li><a href="cotizaciones.html">Cotizaciones</a></li>
+                <li><a href="configuraciones.html">Configuraciones</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <section id="dashboard-content">
+        <div class="encabezado">
+            <div class="encabezado-izq">
+                <h2>Mezclas de pintura</h2>
+                <span id="totalMezclas" class="badge-total"></span>
+            </div>
+            <button class="btn-nuevo" onclick="abrirModalCrear()">+ Nueva Mezcla</button>
+        </div>
+
+        <p style="color:#e2e8f0;font-size:13px;margin:-8px 0 16px;max-width:720px">
+            Las mezclas se registran aquí con sus componentes (productos mezclables del catálogo).
+            En <strong>Ventas → Ver catálogo</strong> aparecen listas para venderlas. En <strong>Productos</strong> marca
+            «¿Se puede usar en mezclas?» en las bases que entran a la fórmula.
+        </p>
+
+        <div class="toolbar">
+            <input type="text" id="buscarMezcla" placeholder="Buscar por código, nombre o cliente…" oninput="filtrarMezclas()">
+            <select id="filtroEstadoMezcla" onchange="filtrarMezclas()">
+                <option value="">Todos los estados</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="en_proceso">En proceso</option>
+                <option value="listo">Listo</option>
+                <option value="entregado">Entregado</option>
+            </select>
+        </div>
+
+        <div class="tabla-wrapper">
+            <table id="tablaMezclas" class="tabla-modulo">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th style="text-align:left;padding-left:16px">Nombre / Cliente</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoMezclas"></tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div id="modalMezcla" class="modal-overlay modal-scroll-fix" style="display:none">
+    <div class="modal-caja modal-grande modal-scroll">
+        <h3 id="tituloModalMezcla">Nueva mezcla</h3>
+        <div class="modal-scroll-inner">
+            <label>Cliente</label>
+            <select id="inClienteMezcla"></select>
+            <label>Nombre de la mezcla</label>
+            <input id="inNombreMezcla" type="text" placeholder="Ej: Azul cielo satinado">
+            <label>Descripción</label>
+            <input id="inDescMezcla" type="text">
+            <label>Precio de venta (S/)</label>
+            <input id="inPrecioMezcla" type="number" min="0" step="0.01" value="0">
+            <label>Tiempo preparación (min)</label>
+            <input id="inTiempoMezcla" type="number" min="0" value="15">
+            <label>Componentes (productos mezclables)</label>
+            <div id="listaProductosMezcla" style="max-height:200px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px;padding:8px;margin:8px 0"></div>
+            <div id="detalleMezclaAgregar" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+                <select id="selProdMezcla" style="flex:1;min-width:160px"></select>
+                <input id="inCantMezcla" type="number" min="0.01" step="0.01" placeholder="Cant." style="width:90px">
+                <button type="button" class="btn-nuevo" style="padding:8px 14px" onclick="agregarLineaMezcla()">+</button>
+            </div>
+            <table class="tabla-modulo" style="width:100%;margin-bottom:12px">
+                <thead><tr><th>Producto</th><th>Cant.</th><th></th></tr></thead>
+                <tbody id="cuerpoDetalleMezcla"></tbody>
+            </table>
+        </div>
+        <div class="modal-botones">
+            <button class="btn-cancelar" onclick="cerrarModalMezcla()">Cancelar</button>
+            <button class="btn-guardar" onclick="guardarMezcla()">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script src="../scripts/script.js"></script>
+<script src="../scripts/sidebar.js"></script>
+<script src="../scripts/mezclas.js"></script>
+</body>
+</html>

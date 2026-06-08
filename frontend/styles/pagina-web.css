@@ -1,0 +1,153 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: "Inter", sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.web-header {
+    background: linear-gradient(135deg, #010e1b, #031b4b);
+    color: #fff;
+    padding: 16px 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.web-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.web-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.web-logo {
+    height: 48px;
+    width: auto;
+}
+
+.web-brand h1 { font-size: 20px; font-weight: 800; }
+.web-brand p  { font-size: 13px; opacity: 0.85; }
+
+.web-nav a {
+    color: #cbd5e1;
+    text-decoration: none;
+    margin-left: 16px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.web-nav a.activo,
+.web-nav a:hover { color: #fff; }
+
+.web-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 20px 48px;
+}
+
+.web-hero {
+    margin-bottom: 24px;
+}
+
+.web-hero h2 {
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.web-buscar input {
+    width: 100%;
+    max-width: 480px;
+    margin-top: 14px;
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.web-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.web-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.web-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.web-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.web-card .marca {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.web-card .precio {
+    font-size: 20px;
+    font-weight: 800;
+    color: #15803d;
+}
+
+.web-card .stock {
+    font-size: 12px;
+    margin-top: 8px;
+    color: #475569;
+}
+
+.web-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+}
+
+.web-badge.ok { background: #dcfce7; color: #166534; }
+.web-badge.bajo { background: #fef9c3; color: #854d0e; }
+.web-badge.agotado { background: #fee2e2; color: #991b1b; }
+
+.web-contador {
+    margin-top: 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.web-footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.web-spinner {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+}
